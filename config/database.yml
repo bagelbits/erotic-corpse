@@ -49,6 +49,5 @@ test:
 #
 production:
   <<: *default
-  database: exquisite_corpse_telephone_production
-  username: exquisite_corpse_telephone
-  password: <%= ENV['EXQUISITE_CORPSE_TELEPHONE_DATABASE_PASSWORD'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  url: <%= ENV['DATABASE_URL'] %>
