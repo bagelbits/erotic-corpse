@@ -1,8 +1,9 @@
 language: ruby
 rvm: 2.6.0
+before_install:
+  - mysql -e 'CREATE DATABASE exquisite_corpse_telephone_test;'
 script:
-  - bundle exec rake db:create
-  - bundle exec rake db:setup
+  - bundle exec rake db:reset
   - bundle exec rspec
 services:
   - mysql
