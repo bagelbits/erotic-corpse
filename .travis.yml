@@ -1,5 +1,6 @@
 language: ruby
 rvm: 2.6.0
+cache: bundler
 before_install:
   - mysql -e 'CREATE DATABASE exquisite_corpse_telephone_test;'
 script:
