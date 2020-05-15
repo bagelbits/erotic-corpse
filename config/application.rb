@@ -34,5 +34,9 @@ module ExquisiteCorpseTelephone
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.after_initialize do
+      ActiveRecord::MigrationContext.new('db/migrate/', ActiveRecord::SchemaMigration).migrate
+    end
   end
 end
