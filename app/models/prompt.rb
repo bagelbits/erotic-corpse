@@ -3,6 +3,10 @@
 class Prompt < ActiveRecord::Base
   self.table_name = 'prompts'
 
+  def self.last_prompt
+    where(next_prompt: nil, reported: false).last
+  end
+
   validates :prompt, presence: true
 
   def report!

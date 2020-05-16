@@ -3,6 +3,29 @@
 require 'rails_helper'
 
 RSpec.describe 'Prompt' do
+  describe ':last_prompt' do
+    let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
+    let(:second_prompt) { Prompt.create(prompt: 'This is a test') }
+    let(:third_prompt) { Prompt.create(prompt: 'This is a test') }
+
+    it 'gives the last Prompt without a next_prompt' do
+      first_prompt.next_prompt = second_prompt.id
+      first_prompt.save!
+      second_prompt.next_prompt = third_prompt.id
+      second_prompt.save!
+      expect(Prompt.last_prompt.id).to eq(third_prompt.id)
+    end
+
+    context 'if prompted is reported' do
+      it 'is ignored' do
+        first_prompt.next_prompt = second_prompt.id
+        first_prompt.save!
+        third_prompt.report!
+        expect(Prompt.last_prompt.id).to eq(second_prompt.id)
+      end
+    end
+  end
+
   describe '#validate' do
     it 'must have a prompt' do
       expect { Prompt.create! }.to raise_error(ActiveRecord::RecordInvalid)
@@ -11,8 +34,7 @@ RSpec.describe 'Prompt' do
 
   describe '#report' do
     it 'marks prompt as reported' do
-      prompt = Prompt.new(id: 2, prompt: 'This is a test')
-      prompt.save!
+      prompt = Prompt.create(id: 2, prompt: 'This is a test')
       expect(prompt.reported).to eq(false)
 
       prompt.report!
