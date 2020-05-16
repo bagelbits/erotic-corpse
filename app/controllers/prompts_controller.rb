@@ -7,6 +7,7 @@ class PromptsController < ApplicationController
   end
 
   def create
+    params.require(:prompt, :previous_prompt_id)
     new_prompt = Prompt.new(prompt: params[:prompt]).save!
     old_prompt = Prompt.find(params[:previous_prompt_id])
     old_prompt.next_prompt = new_prompt.id
@@ -20,7 +21,8 @@ class PromptsController < ApplicationController
   end
 
   def report
-    prompt = Prompt.find(params[:prompt_id])
+    prompt = Prompt.find(params[:id])
     prompt.report!
+    render json: prompt
   end
 end

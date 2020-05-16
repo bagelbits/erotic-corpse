@@ -6,6 +6,8 @@ class Prompt < ActiveRecord::Base
   validates :prompt, presence: true
 
   def report!
+    return if id == 1
+
     self.reported = true
     save!
   end
