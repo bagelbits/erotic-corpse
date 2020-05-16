@@ -2,7 +2,7 @@ language: ruby
 rvm: 2.6.0
 cache: bundler
 before_install:
-  - mysql -e 'CREATE DATABASE exquisite_corpse_telephone_test;'
+  - mysql -e 'CREATE DATABASE erotic_corpse_test;'
 script:
   - bundle exec rake db:reset
   - bundle exec rspec
