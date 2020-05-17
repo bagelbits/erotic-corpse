@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes, { func } from "prop-types";
 
+const MAX_CHARACTERS = 280;
+
 function getPrompt() {
   const [result, setResult] = React.useState({});
   const [loading, setLoading] = React.useState("false");
@@ -25,6 +27,7 @@ function getPrompt() {
 
 function EroticPrompt(props) {
   const [result, loading] = getPrompt();
+  const [charCounter, setCharCounter] = React.useState(0);
   const [submitted, setSubmitted] = React.useState("false");
 
   const submitEl = React.useRef(null);
@@ -67,6 +70,10 @@ function EroticPrompt(props) {
     postPrompt();
   };
 
+  const updateCharCounter = () => {
+    setCharCounter(inputEl.current.value.length);
+  };
+
   return (
     <div>
       {loading === "false" ? (
@@ -80,8 +87,13 @@ function EroticPrompt(props) {
           <textarea
             ref={inputEl}
             placeholder="Give me the next sentence in the story! ;)"
-            maxLength="280"
+            maxLength={MAX_CHARACTERS}
+            onChange={updateCharCounter}
           />
+          <br />
+          <p>
+            {charCounter}/{MAX_CHARACTERS}
+          </p>
           <br />
           <button id="prompt_submit" ref={submitEl} onClick={submitClicked}>
             Submit!
