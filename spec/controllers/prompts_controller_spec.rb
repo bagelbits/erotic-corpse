@@ -7,7 +7,7 @@ RSpec.describe PromptsController do
     let(:prompts) { build_list(:prompt, 3) }
     it 'gives a list of prompts' do
       allow(Prompt).to receive(:all).and_return(prompts)
-      expect(Prompt).to receive(:all).and_return(prompts)
+      expect(Prompt).to receive(:all)
 
       get :index
       expect(response.code).to eq('200')

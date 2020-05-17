@@ -1,0 +1,9 @@
+%h1 The Erotic Corpse story so far:
+
+%p
+  - @story.each do |sentence|
+    - if sentence[:reported]
+      %span{style: 'text-decoration: line-through;'}
+        = "#{sentence[:prompt]} "
+    - else
+      = "#{sentence[:prompt]} "
