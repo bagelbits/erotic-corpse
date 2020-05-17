@@ -11,6 +11,7 @@ class Prompt < ActiveRecord::Base
 
   def report!
     return if id == 1
+    return if next_prompt
 
     self.reported = true
     save!

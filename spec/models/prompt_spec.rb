@@ -52,5 +52,21 @@ RSpec.describe 'Prompt' do
         expect(first_prompt.reported).to eq(false)
       end
     end
+
+    context 'with next_prompt set' do
+      let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
+      let(:second_prompt) { Prompt.create(prompt: 'This is a test', next_prompt: first_prompt.id) }
+
+      it 'does nothing' do
+        first_prompt.save!
+        second_prompt.save!
+        expect(second_prompt.reported).to eq(false)
+
+        second_prompt.report!
+        id = second_prompt.id
+        second_prompt = Prompt.find(id)
+        expect(second_prompt.reported).to eq(false)
+      end
+    end
   end
 end
