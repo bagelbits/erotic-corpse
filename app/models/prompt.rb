@@ -4,7 +4,12 @@ class Prompt < ActiveRecord::Base
   self.table_name = 'prompts'
 
   def self.last_prompt
-    where(next_prompt: nil, reported: false).last
+    prompt = where(next_prompt: nil, reported: false).last
+
+    # If there is no last prompt, get the last prompt that is not reported
+    prompt ||= where(reported: false).last
+
+    prompt
   end
 
   validates :prompt, presence: true

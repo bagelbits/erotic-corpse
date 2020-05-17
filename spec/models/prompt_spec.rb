@@ -24,6 +24,17 @@ RSpec.describe 'Prompt' do
         expect(Prompt.last_prompt.id).to eq(second_prompt.id)
       end
     end
+
+    context 'when there is no last prompt' do
+      it 'returns the last non-reported prompt' do
+        first_prompt.next_prompt = second_prompt.id
+        first_prompt.save!
+        second_prompt.next_prompt = third_prompt.id
+        second_prompt.save!
+        third_prompt.report!
+        expect(Prompt.last_prompt.id).to eq(second_prompt.id)
+      end
+    end
   end
 
   describe '#validate' do
@@ -58,8 +69,6 @@ RSpec.describe 'Prompt' do
       let(:second_prompt) { Prompt.create(prompt: 'This is a test', next_prompt: first_prompt.id) }
 
       it 'does nothing' do
-        first_prompt.save!
-        second_prompt.save!
         expect(second_prompt.reported).to eq(false)
 
         second_prompt.report!
