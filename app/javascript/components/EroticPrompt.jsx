@@ -80,6 +80,7 @@ function EroticPrompt(props) {
           <textarea
             ref={inputEl}
             placeholder="Give me the next sentence in the story! ;)"
+            maxLength="280"
           />
           <br />
           <button id="prompt_submit" ref={submitEl} onClick={submitClicked}>
