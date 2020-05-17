@@ -38,8 +38,83 @@ RSpec.describe 'Prompt' do
   end
 
   describe '#validate' do
-    it 'must have a prompt' do
-      expect { Prompt.create! }.to raise_error(ActiveRecord::RecordInvalid)
+    describe '.prompt' do
+      it 'must have a prompt' do
+        expect { Prompt.create! }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+
+    describe '.next_prompt' do
+      let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
+      let(:second_prompt) { Prompt.create(prompt: 'This is a test') }
+
+      context 'when next_prompt does not change' do
+        it 'is valid' do
+          first_prompt.save!
+        end
+      end
+
+      context 'when next_prompt does not exist' do
+        it 'is invalid' do
+          first_prompt.save!
+
+          last_prompt = Prompt.last
+          first_prompt.next_prompt = last_prompt.id + 1
+
+          expect { first_prompt.save! }.to raise_error(
+            ActiveRecord::RecordInvalid,
+            'Validation failed: Next prompt does not exist'
+          )
+        end
+      end
+
+      context 'when child prompt has child prompt' do
+        let(:third_prompt) { Prompt.create(prompt: 'This is a test') }
+
+        it 'is invalid' do
+          second_prompt.next_prompt = third_prompt.id
+          second_prompt.save!
+          first_prompt.next_prompt = second_prompt.id
+          expect { first_prompt.save! }.to raise_error(
+            ActiveRecord::RecordInvalid,
+            'Validation failed: Next prompt is not a leaf'
+          )
+        end
+      end
+
+      context 'when child prompt is reported' do
+        it 'is invalid' do
+          second_prompt.report!
+          first_prompt.next_prompt = second_prompt.id
+          expect { first_prompt.save! }.to raise_error(
+            ActiveRecord::RecordInvalid,
+            'Validation failed: Next prompt has been reported'
+          )
+        end
+      end
+
+      context 'when next_prompt was already set' do
+        let(:third_prompt) { Prompt.create(prompt: 'This is a test') }
+        it 'is invalid' do
+          first_prompt.next_prompt = second_prompt.id
+          first_prompt.save!
+          first_prompt.next_prompt = third_prompt.id
+          expect { first_prompt.save! }.to raise_error(
+            ActiveRecord::RecordInvalid,
+            'Validation failed: Next prompt cannot be changed if already set and child prompt is not reported'
+          )
+        end
+
+        context 'when previous child prompt was reported' do
+          it 'is valid' do
+            first_prompt.next_prompt = second_prompt.id
+            first_prompt.save!
+            second_prompt.report!
+            first_prompt.next_prompt = third_prompt.id
+            first_prompt.save!
+          end
+        end
+      end
     end
   end
 
