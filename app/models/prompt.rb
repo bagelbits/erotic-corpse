@@ -3,13 +3,26 @@
 class Prompt < ActiveRecord::Base
   self.table_name = 'prompts'
 
-  def self.last_prompt
-    prompt = where(next_prompt: nil, reported: false).last
+  class << self
+    def last_prompt
+      prompt = where(next_prompt: nil, reported: false).last
 
-    # If there is no last prompt, get the last prompt that is not reported
-    prompt ||= where(reported: false).last
+      # If there is no last prompt, get the last prompt that is not reported
+      prompt ||= where(reported: false).last
 
-    prompt
+      prompt
+    end
+
+    def full_story
+      story = [find(1)]
+
+      while story.last.next_prompt
+        prompt = find(story.last.next_prompt)
+        story << prompt
+      end
+
+      story.map { |p| { prompt: p.prompt, reported: p.reported } }
+    end
   end
 
   validates :prompt, presence: true

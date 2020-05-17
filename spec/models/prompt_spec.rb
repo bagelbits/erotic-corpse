@@ -37,6 +37,38 @@ RSpec.describe 'Prompt' do
     end
   end
 
+  describe ':full_story' do
+    let(:first_prompt) { Prompt.create(prompt: 'This is a test 1') }
+    let(:second_prompt) { Prompt.create(prompt: 'This is a test 2') }
+    let(:third_prompt) { Prompt.create(prompt: 'This is a test 3') }
+
+    it 'gives the full story' do
+      first_prompt.next_prompt = second_prompt.id
+      first_prompt.save!
+      second_prompt.next_prompt = third_prompt.id
+      second_prompt.save!
+      expect(Prompt.full_story.map { |p| p[:prompt] }).to eq(
+        [first_prompt.prompt, second_prompt.prompt, third_prompt.prompt]
+      )
+    end
+
+    context 'when prompt is reported' do
+      it 'still returns' do
+        first_prompt.next_prompt = second_prompt.id
+        first_prompt.save!
+        second_prompt.next_prompt = third_prompt.id
+        second_prompt.save!
+        third_prompt.report!
+
+        full_story = Prompt.full_story
+        expect(full_story.map { |p| p[:prompt] }).to eq(
+          [first_prompt.prompt, second_prompt.prompt, third_prompt.prompt]
+        )
+        expect(full_story.last[:reported]).to eq(true)
+      end
+    end
+  end
+
   describe '#validate' do
     describe '.prompt' do
       it 'must have a prompt' do
@@ -84,6 +116,7 @@ RSpec.describe 'Prompt' do
 
       context 'when child prompt is reported' do
         it 'is invalid' do
+          first_prompt.save!
           second_prompt.report!
           first_prompt.next_prompt = second_prompt.id
           expect { first_prompt.save! }.to raise_error(
