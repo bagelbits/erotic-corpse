@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import ReportModal from "./ReportModal";
+import CountdownTimer from "./CountdownTimer";
 
 const MAX_CHARACTERS = 280;
 
@@ -128,6 +129,13 @@ function EroticPrompt(props) {
         <div>
           <h2> Here is your prompt: </h2>
           <p> {result.prompt} </p>
+          <CountdownTimer
+            isActive={true}
+            seconds={10}
+            onFinish={() => {
+              setSubmitted(true);
+            }}
+          />
           {/* Maybe use bootstrap for this? */}
           <textarea
             ref={inputEl}
