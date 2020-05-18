@@ -48,7 +48,26 @@ RSpec.describe PromptsController do
       post :report, params: { id: 2 }
 
       expect(response.code).to eq('200')
-      expect(JSON.parse(response.body)['id']).to eq(prompt.id)
+      expect(JSON.parse(response.body)['success']).to eq(true)
+      expect(JSON.parse(response.body)['error']).to eq('')
+    end
+
+    context 'with ActiveRecord::RecordInvalid' do
+      it 'responds with error' do
+        allow(Prompt).to receive(:find).and_return(prompt)
+        allow_any_instance_of(Prompt).to receive(:report!).and_raise(
+          ActiveRecord::RecordInvalid
+        )
+
+        expect_any_instance_of(Prompt).to receive(:report!)
+        post :report, params: { id: 2 }
+
+        expect(response.code).to eq('200')
+        expect(JSON.parse(response.body)['success']).to eq(false)
+        expect(JSON.parse(response.body)['error']).to eq(
+          "Unfortunately, we can't roll back the story anymore. Sorry for the inconvience."
+        )
+      end
     end
   end
 end

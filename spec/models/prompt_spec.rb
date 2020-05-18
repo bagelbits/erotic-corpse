@@ -3,12 +3,16 @@
 require 'rails_helper'
 
 RSpec.describe 'Prompt' do
+  let!(:root_prompt) { Prompt.create(id: 1, prompt: 'This is a test') }
+
   describe ':last_prompt' do
     let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
     let(:second_prompt) { Prompt.create(prompt: 'This is a test') }
     let(:third_prompt) { Prompt.create(prompt: 'This is a test') }
 
     it 'gives the last Prompt without a next_prompt' do
+      root_prompt.next_prompt = first_prompt.id
+      root_prompt.save!
       first_prompt.next_prompt = second_prompt.id
       first_prompt.save!
       second_prompt.next_prompt = third_prompt.id
@@ -18,6 +22,8 @@ RSpec.describe 'Prompt' do
 
     context 'if prompted is reported' do
       it 'is ignored' do
+        root_prompt.next_prompt = first_prompt.id
+        root_prompt.save!
         first_prompt.next_prompt = second_prompt.id
         first_prompt.save!
         third_prompt.report!
@@ -27,6 +33,8 @@ RSpec.describe 'Prompt' do
 
     context 'when there is no last prompt' do
       it 'returns the last non-reported prompt' do
+        root_prompt.next_prompt = first_prompt.id
+        root_prompt.save!
         first_prompt.next_prompt = second_prompt.id
         first_prompt.save!
         second_prompt.next_prompt = third_prompt.id
@@ -41,19 +49,26 @@ RSpec.describe 'Prompt' do
     let(:first_prompt) { Prompt.create(prompt: 'This is a test 1') }
     let(:second_prompt) { Prompt.create(prompt: 'This is a test 2') }
     let(:third_prompt) { Prompt.create(prompt: 'This is a test 3') }
+    let(:expected_full_story) do
+      [root_prompt.prompt, first_prompt.prompt, second_prompt.prompt, third_prompt.prompt]
+    end
 
     it 'gives the full story' do
+      root_prompt.next_prompt = first_prompt.id
+      root_prompt.save!
       first_prompt.next_prompt = second_prompt.id
       first_prompt.save!
       second_prompt.next_prompt = third_prompt.id
       second_prompt.save!
       expect(Prompt.full_story.map { |p| p[:prompt] }).to eq(
-        [first_prompt.prompt, second_prompt.prompt, third_prompt.prompt]
+        expected_full_story
       )
     end
 
     context 'when prompt is reported' do
       it 'still returns' do
+        root_prompt.next_prompt = first_prompt.id
+        root_prompt.save!
         first_prompt.next_prompt = second_prompt.id
         first_prompt.save!
         second_prompt.next_prompt = third_prompt.id
@@ -62,7 +77,7 @@ RSpec.describe 'Prompt' do
 
         full_story = Prompt.full_story
         expect(full_story.map { |p| p[:prompt] }).to eq(
-          [first_prompt.prompt, second_prompt.prompt, third_prompt.prompt]
+          expected_full_story
         )
         expect(full_story.last[:reported]).to eq(true)
       end
@@ -149,6 +164,36 @@ RSpec.describe 'Prompt' do
         end
       end
     end
+
+    describe '.reported' do
+      context 'with the first prompt' do
+        it 'is invalid' do
+          expect(root_prompt.reported).to eq(false)
+
+          root_prompt.reported = true
+          expect { root_prompt.save! }.to raise_error(
+            ActiveRecord::RecordInvalid,
+            'Validation failed: Reported can not be set for story root'
+          )
+        end
+      end
+
+      context 'with next_prompt set' do
+        let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
+        let(:second_prompt) { Prompt.create(prompt: 'This is a test') }
+
+        it 'is invalid' do
+          first_prompt.next_prompt = second_prompt.id
+          first_prompt.save!
+
+          first_prompt.reported = true
+          expect { first_prompt.save! }.to raise_error(
+            ActiveRecord::RecordInvalid,
+            'Validation failed: Reported can not be set for locked in story'
+          )
+        end
+      end
+    end
   end
 
   describe '#report' do
@@ -159,31 +204,6 @@ RSpec.describe 'Prompt' do
       prompt.report!
       prompt = Prompt.find(prompt.id)
       expect(prompt.reported).to eq(true)
-    end
-
-    context 'with the first prompt' do
-      it 'does nothing' do
-        first_prompt = Prompt.find_or_create_by(id: 1, prompt: 'This is a test')
-        expect(first_prompt.reported).to eq(false)
-
-        first_prompt.report!
-        first_prompt = Prompt.find(first_prompt.id)
-        expect(first_prompt.reported).to eq(false)
-      end
-    end
-
-    context 'with next_prompt set' do
-      let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
-      let(:second_prompt) { Prompt.create(prompt: 'This is a test', next_prompt: first_prompt.id) }
-
-      it 'does nothing' do
-        expect(second_prompt.reported).to eq(false)
-
-        second_prompt.report!
-        id = second_prompt.id
-        second_prompt = Prompt.find(id)
-        expect(second_prompt.reported).to eq(false)
-      end
     end
   end
 end

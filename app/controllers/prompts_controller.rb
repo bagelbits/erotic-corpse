@@ -24,6 +24,16 @@ class PromptsController < ApplicationController
   def report
     prompt = Prompt.find(params[:id])
     prompt.report!
-    render json: prompt
+    response = {
+      success: true,
+      error: ''
+    }
+    render json: response
+  rescue ActiveRecord::RecordInvalid
+    response = {
+      success: false,
+      error: "Unfortunately, we can't roll back the story anymore. Sorry for the inconvience."
+    }
+    render json: response
   end
 end

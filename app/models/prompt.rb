@@ -27,12 +27,9 @@ class Prompt < ActiveRecord::Base
 
   validates :prompt, presence: true
   validate :validate_next_prompt
+  validate :validate_reported
 
   def report!
-    # TODO: Maybe convert these to errors instead.
-    return if id == 1
-    return if next_prompt
-
     self.reported = true
     save!
   end
@@ -62,5 +59,13 @@ class Prompt < ActiveRecord::Base
     end
   rescue ActiveRecord::RecordNotFound
     errors.add(:next_prompt, 'does not exist')
+  end
+
+  def validate_reported
+    return unless reported_changed?
+    return unless reported
+
+    errors.add(:reported, 'can not be set for story root') if id == 1
+    errors.add(:reported, 'can not be set for locked in story') if next_prompt
   end
 end

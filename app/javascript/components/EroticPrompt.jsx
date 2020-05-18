@@ -1,9 +1,10 @@
 import React from "react";
-import PropTypes, { func } from "prop-types";
+import Button from "react-bootstrap/Button";
+import ReportModal from "./ReportModal";
 
 const MAX_CHARACTERS = 280;
 
-function getPrompt() {
+function getPrompt(reported) {
   const [result, setResult] = React.useState({});
   const [loading, setLoading] = React.useState("false");
 
@@ -20,17 +21,20 @@ function getPrompt() {
     }
 
     fetchPrompt();
-  }, []);
+  }, [reported]);
 
   return [result, loading];
 }
 
 function EroticPrompt(props) {
-  const [result, loading] = getPrompt();
+  const [reported, setReported] = React.useState(false);
+  const [result, loading] = getPrompt(reported);
   const [charCounter, setCharCounter] = React.useState(0);
   const [submitted, setSubmitted] = React.useState("false");
+  const [reportModalOpen, setReportModalOpen] = React.useState(false);
 
   const submitEl = React.useRef(null);
+  const reportEl = React.useRef(null);
   const inputEl = React.useRef(null);
 
   const submitClicked = () => {
@@ -47,7 +51,6 @@ function EroticPrompt(props) {
           prompt: newPrompt,
           previous_prompt_id: result.id,
         };
-        console.log(body);
         const csrf = document
           .querySelector("meta[name='csrf-token']")
           .getAttribute("content");
@@ -70,6 +73,47 @@ function EroticPrompt(props) {
     postPrompt();
   };
 
+  const reportPrompt = (promptId) => {
+    async function submitPromptReport() {
+      if (reported) {
+        closeReportModal();
+        alert("Sorry. You aren't able to report anymore!");
+        return;
+      }
+
+      try {
+        const csrf = document
+          .querySelector("meta[name='csrf-token']")
+          .getAttribute("content");
+        const response = await fetch(`/prompts/${promptId}/report`, {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-CSRF-Token": csrf,
+          },
+        });
+        const json = await response.json();
+        if (json.success) {
+          setReported(true);
+        } else {
+          alert(json.error);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      closeReportModal();
+    }
+
+    submitPromptReport();
+  };
+  const openReportModal = () => {
+    setReportModalOpen(true);
+  };
+  const closeReportModal = () => {
+    setReportModalOpen(false);
+  };
+
   const updateCharCounter = () => {
     setCharCounter(inputEl.current.value.length);
   };
@@ -84,6 +128,7 @@ function EroticPrompt(props) {
         <div>
           <h2> Here is your prompt: </h2>
           <p> {result.prompt} </p>
+          {/* Maybe use bootstrap for this? */}
           <textarea
             ref={inputEl}
             placeholder="Give me the next sentence in the story! ;)"
@@ -95,10 +140,29 @@ function EroticPrompt(props) {
             {charCounter}/{MAX_CHARACTERS}
           </p>
           <br />
-          <button id="prompt_submit" ref={submitEl} onClick={submitClicked}>
+          <Button
+            variant="primary"
+            id="prompt_submit"
+            ref={submitEl}
+            onClick={submitClicked}
+          >
             Submit!
-          </button>
-          {/* <button id="prompt_repot">Report!</button> */}
+          </Button>
+          <Button
+            variant="danger"
+            id="prompt_repot"
+            ref={reportEl}
+            onClick={openReportModal}
+          >
+            Report!
+          </Button>
+
+          <ReportModal
+            open={reportModalOpen}
+            onClose={closeReportModal}
+            onReport={reportPrompt}
+            promptId={result.id}
+          />
         </div>
       ) : submitted === "null" ? (
         <p>Something went terribly wrong.</p>
