@@ -7,6 +7,7 @@ class DeliCounterController < ApplicationController
     if ticket == Ticket.now_serving
       puts 'We have a winner!'
       # TODO: Hook up ActionCable call here
+      # TODO: Trigger called timeout job here
     end
 
     response = {

@@ -12,10 +12,10 @@ function getPrompt(reported) {
   React.useEffect(() => {
     async function fetchPrompt() {
       try {
-        setLoading("true");
         const response = await fetch("/prompts/last");
         const json = await response.json();
         setResult(json);
+        setLoading("true");
       } catch (error) {
         setLoading("null");
       }

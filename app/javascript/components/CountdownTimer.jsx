@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 const secondsToMinutes = (seconds) => {
   const minutes = Math.floor(seconds / 60);
@@ -7,9 +7,9 @@ const secondsToMinutes = (seconds) => {
 };
 
 const CountdownTimer = (props) => {
-  const [seconds, setSeconds] = useState(props.seconds);
+  const [seconds, setSeconds] = React.useState(props.seconds);
 
-  useEffect(() => {
+  React.useEffect(() => {
     let interval = null;
     if (props.isActive && seconds !== 0) {
       interval = setInterval(() => {

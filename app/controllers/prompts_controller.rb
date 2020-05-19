@@ -17,7 +17,9 @@ class PromptsController < ApplicationController
   end
 
   def last
+    # TODO: Check ticket and token against now_serving
     next_prompt = Prompt.last_prompt
+    # TODO: Trigger submit timeout job
     render json: next_prompt
   end
 
