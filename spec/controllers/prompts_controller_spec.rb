@@ -22,7 +22,7 @@ RSpec.describe PromptsController do
 
       last_prompt = Prompt.find(last_prompt.id)
       expect(response.code).to eq('200')
-      expect(last_prompt.next_prompt).to eq(JSON.parse(response.body)['id'])
+      expect(JSON.parse(response.body)['id']).to eq(last_prompt.next_prompt)
     end
   end
 

@@ -13,5 +13,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :deli_counter do
+    collection do
+      post 'ticket'
+    end
+  end
+
   root 'home#index'
 end
