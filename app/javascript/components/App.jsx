@@ -45,10 +45,12 @@ function App() {
       ) : loading === "null" ? (
         <p>Something went terribly wrong.</p>
       ) : (
-        <DeliCounter ticket={result.ticket} token={result.token} />
+        <div>
+          <DeliCounter ticket={result.ticket} token={result.token} />
+          {/* TODO: Only show when ticket matches now_serving. */}
+          <EroticPrompt ticket={result.ticket} token={result.token} />
+        </div>
       )}
-      {/* TODO: Only show when ticket matches now_serving. */}
-      <EroticPrompt />
     </div>
   );
 }

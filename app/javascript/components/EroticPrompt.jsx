@@ -5,14 +5,16 @@ import CountdownTimer from "./CountdownTimer";
 
 const MAX_CHARACTERS = 280;
 
-function getPrompt(reported) {
+function getPrompt(reported, ticket, token) {
   const [result, setResult] = React.useState({});
   const [loading, setLoading] = React.useState("false");
 
   React.useEffect(() => {
     async function fetchPrompt() {
       try {
-        const response = await fetch("/prompts/last");
+        const response = await fetch(
+          `/prompts/last?ticket=${ticket}&token=${token}`
+        );
         const json = await response.json();
         setResult(json);
         setLoading("true");
@@ -29,7 +31,7 @@ function getPrompt(reported) {
 
 function EroticPrompt(props) {
   const [reported, setReported] = React.useState(false);
-  const [result, loading] = getPrompt(reported);
+  const [result, loading] = getPrompt(reported, props.ticket, props.token);
   const [charCounter, setCharCounter] = React.useState(0);
   const [submitted, setSubmitted] = React.useState("false");
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
@@ -51,6 +53,8 @@ function EroticPrompt(props) {
         const body = {
           prompt: newPrompt,
           previous_prompt_id: result.id,
+          ticket: props.ticket,
+          token: props.token,
         };
         const csrf = document
           .querySelector("meta[name='csrf-token']")
@@ -83,6 +87,10 @@ function EroticPrompt(props) {
       }
 
       try {
+        const body = {
+          ticket: props.ticket,
+          token: props.token,
+        };
         const csrf = document
           .querySelector("meta[name='csrf-token']")
           .getAttribute("content");
@@ -93,6 +101,7 @@ function EroticPrompt(props) {
             Accept: "application/json",
             "X-CSRF-Token": csrf,
           },
+          body: JSON.stringify(body),
         });
         const json = await response.json();
         if (json.success) {

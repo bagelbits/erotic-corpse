@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 class PromptsController < ApplicationController
-  def index
-    prompts = Prompt.all
-    render json: prompts
-  end
-
   def create
+    puts 'create called!'
+    puts params
     params.require(:prompt)
     params.require(:previous_prompt_id)
     new_prompt = Prompt.create(prompt: params[:prompt])
@@ -17,6 +14,8 @@ class PromptsController < ApplicationController
   end
 
   def last
+    puts 'last called!'
+    puts params
     # TODO: Check ticket and token against now_serving
     next_prompt = Prompt.last_prompt
     # TODO: Trigger submit timeout job
@@ -24,6 +23,8 @@ class PromptsController < ApplicationController
   end
 
   def report
+    puts 'report called!'
+    puts params
     prompt = Prompt.find(params[:id])
     prompt.report!
     response = {
