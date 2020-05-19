@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :deli_counter do
     collection do
       post 'ticket'
+      post 'now_serving'
     end
   end
 

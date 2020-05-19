@@ -34,8 +34,51 @@ function getTicket() {
   return [result, loading];
 }
 
+function pollNowServing({ ticket, token }) {
+  const [nowServing, setNowServing] = React.useState(null);
+  React.useEffect(() => {
+    async function fetchNowServing() {
+      try {
+        const csrf = document
+          .querySelector("meta[name='csrf-token']")
+          .getAttribute("content");
+        const body = {
+          ticket,
+          token,
+        };
+        const response = await fetch("/deli_counter/now_serving", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-CSRF-Token": csrf,
+          },
+          body: JSON.stringify(body),
+        });
+        const json = await response.json();
+        setNowServing(json["ticket"]);
+      } catch (error) {}
+    }
+
+    let interval = null;
+    if (ticket && token) {
+      fetchNowServing();
+      if (ticket === nowServing) {
+        clearInterval(interval);
+      } else {
+        interval = setInterval(() => {
+          fetchNowServing();
+        }, 4000);
+      }
+    }
+    return () => clearInterval(interval);
+  }, [ticket, token, nowServing]);
+  return nowServing;
+}
+
 function App() {
   const [result, loading] = getTicket();
+  const nowServing = pollNowServing(result);
 
   return (
     <div>
@@ -46,7 +89,11 @@ function App() {
         <p>Something went terribly wrong.</p>
       ) : (
         <div>
-          <DeliCounter ticket={result.ticket} token={result.token} />
+          <DeliCounter
+            ticket={result.ticket}
+            token={result.token}
+            nowServing={nowServing}
+          />
           {/* TODO: Only show when ticket matches now_serving. */}
           <EroticPrompt ticket={result.ticket} token={result.token} />
         </div>

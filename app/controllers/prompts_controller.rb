@@ -8,7 +8,7 @@ class PromptsController < ApplicationController
     params.require(:previous_prompt_id)
 
     # TODO: Check ticket and token against now_serving
-    # This requires everything else ActionCable and ActiveJob to
+    # This requires everything else to
     # be setup.
 
     new_prompt = Prompt.create(prompt: params[:prompt])
@@ -19,9 +19,6 @@ class PromptsController < ApplicationController
     ticket = Ticket.find(params[:ticket])
     ticket.close!
 
-    if Ticket.now_serving
-      # TODO: Hookup ActionCable here
-    end
     render json: new_prompt
   end
 
@@ -30,7 +27,7 @@ class PromptsController < ApplicationController
     params.require(:token)
 
     # TODO: Check ticket and token against now_serving
-    # This requires everything else ActionCable and ActiveJob to
+    # This requires everything else to
     # be setup.
     next_prompt = Prompt.last_prompt
     ticket = Ticket.find(params[:ticket])
@@ -44,7 +41,7 @@ class PromptsController < ApplicationController
     params.require(:token)
 
     # TODO: Check ticket and token against now_serving
-    # This requires everything else ActionCable and ActiveJob to
+    # This requires everything else to
     # be setup.
 
     prompt = Prompt.find(params[:id])
