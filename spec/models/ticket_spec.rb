@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
   describe '.create' do
+    let(:ticket) { Ticket.new }
     context 'with token' do
       it 'is set on create' do
-        ticket = Ticket.new
         expect(ticket.token).to eq(nil)
 
         ticket.save!
@@ -16,11 +16,20 @@ RSpec.describe Ticket, type: :model do
 
     context 'with status' do
       it 'is set on create' do
-        ticket = Ticket.new
         expect(ticket.status).to eq(nil)
 
         ticket.save!
         expect(ticket.status).to eq(Ticket::STATUSES[:open])
+      end
+    end
+
+    context 'with checked_at' do
+      it 'is set on create' do
+        time = Time.now.change(usec: 0)
+        allow(Time).to receive(:now).and_return(time)
+        expect(ticket.checked_at).to eq(nil)
+        ticket.save!
+        expect(ticket.checked_at).to eq(time)
       end
     end
   end

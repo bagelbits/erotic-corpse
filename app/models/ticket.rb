@@ -25,6 +25,7 @@ class Ticket < ApplicationRecord
   before_create do
     self.token = SecureRandom.uuid
     self.status = STATUSES[:open]
+    self.checked_at = Time.now
   end
 
   def skip!
