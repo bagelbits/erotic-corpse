@@ -44,4 +44,16 @@ class Ticket < ApplicationRecord
     self.closure_code = CLOSURE_CODES[:submitted]
     save!
   end
+
+  def responded?
+    status == STATUSES[:responded]
+  end
+
+  def closed?
+    status == STATUSES[:closed]
+  end
+
+  def submitted?
+    closure_code == CLOSURE_CODES[:submitted]
+  end
 end

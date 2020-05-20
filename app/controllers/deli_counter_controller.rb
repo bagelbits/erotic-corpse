@@ -4,9 +4,8 @@ class DeliCounterController < ApplicationController
   def ticket
     ticket = Ticket.create
 
-    if ticket == Ticket.now_serving
-      puts 'We have a winner!'
-      # TODO: Trigger called timeout job here
+    if ticket.id == Ticket.now_serving.id
+      TicketCalledTimeoutJob.set(wait: 10.seconds).perform_later(ticket.id)
     end
 
     response = {

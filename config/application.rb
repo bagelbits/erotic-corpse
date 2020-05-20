@@ -36,8 +36,10 @@ module EroticCorpse
     config.generators.system_tests = nil
     config.active_job.queue_adapter = :delayed_job
 
-    config.after_initialize do
-      ActiveRecord::MigrationContext.new('db/migrate/', ActiveRecord::SchemaMigration).migrate
+    if ENV['RUN_TYPE'] == 'web'
+      config.after_initialize do
+        ActiveRecord::MigrationContext.new('db/migrate/', ActiveRecord::SchemaMigration).migrate
+      end
     end
   end
 end

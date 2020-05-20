@@ -50,6 +50,11 @@ RSpec.describe PromptsController do
   describe '#last' do
     let(:prompt) { build(:prompt) }
     let(:ticket) { build(:ticket) }
+
+    before :each do
+      ActiveJob::Base.queue_adapter = :test
+    end
+
     it 'gives the last Prompt' do
       allow(Prompt).to receive(:last_prompt).and_return(prompt)
       allow(Ticket).to receive(:find).and_return(ticket)
@@ -61,6 +66,7 @@ RSpec.describe PromptsController do
       get :last, params: { ticket: ticket.id, token: ticket.token }
       expect(response.code).to eq('200')
       expect(JSON.parse(response.body)['id']).to eq(prompt.id)
+      expect(TicketSubmitTimeoutJob).to have_been_enqueued.with(ticket.id)
     end
 
     context 'with missing ticket' do
@@ -68,6 +74,7 @@ RSpec.describe PromptsController do
         expect do
           get :last, params: { token: 'token' }
         end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: ticket')
+        expect(TicketSubmitTimeoutJob).not_to have_been_enqueued.with(ticket.id)
       end
     end
 
@@ -76,6 +83,7 @@ RSpec.describe PromptsController do
         expect do
           get :last, params: { ticket: 1 }
         end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: token')
+        expect(TicketSubmitTimeoutJob).not_to have_been_enqueued.with(ticket.id)
       end
     end
   end

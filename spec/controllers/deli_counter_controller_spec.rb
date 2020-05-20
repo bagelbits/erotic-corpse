@@ -4,19 +4,37 @@ require 'rails_helper'
 
 RSpec.describe DeliCounterController do
   describe '#ticket' do
-    let(:ticket) { Ticket.create }
+    let(:ticket) { build(:ticket) }
+    let(:now_serving_ticket) { build(:ticket) }
+
+    before :each do
+      ActiveJob::Base.queue_adapter = :test
+    end
+
     it 'generates a ticket' do
       allow(Ticket).to receive(:create).and_return(ticket)
+      allow(Ticket).to receive(:now_serving).and_return(now_serving_ticket)
       expect(Ticket).to receive(:create)
 
       post :ticket
       expect(response.code).to eq('200')
       expect(JSON.parse(response.body)['ticket']).to eq(ticket.id)
       expect(JSON.parse(response.body)['token']).to eq(ticket.token)
+      expect(TicketCalledTimeoutJob).not_to have_been_enqueued
     end
 
     context 'when ticket is now being served' do
-      # TODO: ActiveJob testing
+      it 'also triggers ActiveJob' do
+        allow(Ticket).to receive(:create).and_return(ticket)
+        allow(Ticket).to receive(:now_serving).and_return(ticket)
+        expect(Ticket).to receive(:create)
+
+        post :ticket
+        expect(response.code).to eq('200')
+        expect(JSON.parse(response.body)['ticket']).to eq(ticket.id)
+        expect(JSON.parse(response.body)['token']).to eq(ticket.token)
+        expect(TicketCalledTimeoutJob).to have_been_enqueued.with(ticket.id)
+      end
     end
   end
 
