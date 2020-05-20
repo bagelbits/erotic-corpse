@@ -51,6 +51,9 @@ function EroticPrompt(props) {
   const [charCounter, setCharCounter] = React.useState(0);
   const [submitted, setSubmitted] = React.useState("false");
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
+  const [countdownTime, setCountdownTime] = React.useState(
+    Date.now() + 180 * 1000
+  );
 
   const submitEl = React.useRef(null);
   const reportEl = React.useRef(null);
@@ -144,17 +147,6 @@ function EroticPrompt(props) {
     setCharCounter(inputEl.current.value.length);
   };
 
-  const countdownDateGenerator = () => {
-    if (countdownDate) {
-      return countdownDate;
-    } else {
-      countdownDate = Date.now() + 180 * 1000;
-      return countdownDate;
-    }
-  };
-
-  countdownDate = countdownDateGenerator();
-
   return (
     <div>
       {loading === "false" ? (
@@ -167,7 +159,7 @@ function EroticPrompt(props) {
           <p> {result.prompt} </p>
           <CountdownTimer
             isActive={true}
-            date={countdownDate}
+            date={countdownTime}
             onFinish={() => {
               setSubmitted(true);
             }}
