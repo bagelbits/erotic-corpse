@@ -34,6 +34,7 @@ module EroticCorpse
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.active_job.queue_adapter = :delayed_job
 
     config.after_initialize do
       ActiveRecord::MigrationContext.new('db/migrate/', ActiveRecord::SchemaMigration).migrate
