@@ -1,28 +1,23 @@
 import React from "react";
+import Countdown from "react-countdown";
 
-const secondsToMinutes = (seconds) => {
-  const minutes = Math.floor(seconds / 60);
-  const secondString = `${seconds % 60}`.padStart(2, "0");
-  return `${minutes}:${secondString}`;
+const CountdownTimerFormat = (props) => {
+  const secondsString = `${props.seconds % 60}`.padStart(2, "0");
+  return (
+    <div className="time">
+      {props.minutes}:{secondsString}
+    </div>
+  );
 };
 
 const CountdownTimer = (props) => {
-  const [seconds, setSeconds] = React.useState(props.seconds);
-
-  React.useEffect(() => {
-    let interval = null;
-    if (props.isActive && seconds !== 0) {
-      interval = setInterval(() => {
-        setSeconds((seconds) => seconds - 1);
-      }, 1000);
-    } else if (seconds === 0) {
-      clearInterval(interval);
-      props.onFinish();
-    }
-    return () => clearInterval(interval);
-  }, [props.isActive, seconds]);
-
-  return <div className="time">{secondsToMinutes(seconds)}</div>;
+  return (
+    <Countdown
+      date={Date.now() + props.seconds * 1000}
+      renderer={CountdownTimerFormat}
+      onComplete={props.onFinish}
+    />
+  );
 };
 
 export default CountdownTimer;
