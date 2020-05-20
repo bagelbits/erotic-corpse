@@ -60,6 +60,20 @@ RSpec.describe DeliCounterController do
     context 'when calling ticket does not exist' do
       it 'does nothing' do
         allow(Ticket).to receive(:where).and_return([])
+        expect(Ticket).to receive(:where)
+
+        post :now_serving, params: { ticket: calling_ticket.id, token: calling_ticket.token }
+
+        expect(response.code).to eq('200')
+        expect(JSON.parse(response.body)).to eq({})
+      end
+    end
+
+    context 'when there is no now_serving' do
+      let(:ticket) { nil }
+
+      it 'does nothing' do
+        expect(Ticket).to receive(:now_serving)
 
         post :now_serving, params: { ticket: calling_ticket.id, token: calling_ticket.token }
 
