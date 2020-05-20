@@ -21,6 +21,11 @@ class DeliCounterController < ApplicationController
 
     ticket = Ticket.now_serving
 
+    if ticket.checked_at < 10.seconds.ago
+      TicketCalledTimeoutJob.perform_now(ticket.id)
+      ticket = Ticket.now_serving
+    end
+
     checking_ticket = Ticket.where(id: params[:ticket], token: params[:token]).first
     return render json: {} unless checking_ticket
 

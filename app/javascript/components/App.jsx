@@ -87,16 +87,14 @@ function App() {
         <p>Loading...</p>
       ) : loading === "null" ? (
         <p>Something went terribly wrong.</p>
+      ) : result.ticket !== nowServing ? (
+        <DeliCounter
+          ticket={result.ticket}
+          token={result.token}
+          nowServing={nowServing}
+        />
       ) : (
-        <div>
-          <DeliCounter
-            ticket={result.ticket}
-            token={result.token}
-            nowServing={nowServing}
-          />
-          {/* TODO: Only show when ticket matches now_serving. */}
-          <EroticPrompt ticket={result.ticket} token={result.token} />
-        </div>
+        <EroticPrompt ticket={result.ticket} token={result.token} />
       )}
     </div>
   );
