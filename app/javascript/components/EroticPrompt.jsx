@@ -4,6 +4,7 @@ import ReportModal from "./ReportModal";
 import CountdownTimer from "./CountdownTimer";
 
 const MAX_CHARACTERS = 280;
+let countdownDate;
 
 function getPrompt(reported, ticket, token) {
   const [result, setResult] = React.useState({});
@@ -27,6 +28,21 @@ function getPrompt(reported, ticket, token) {
   }, [reported]);
 
   return [result, loading];
+}
+
+function memo(func) {
+  var cache = {};
+  return function () {
+    var key = JSON.stringify(arguments);
+    if (cache[key]) {
+      console.log(cache);
+      return cache[key];
+    } else {
+      val = func.apply(null, arguments);
+      cache[key] = val;
+      return val;
+    }
+  };
 }
 
 function EroticPrompt(props) {
@@ -128,6 +144,17 @@ function EroticPrompt(props) {
     setCharCounter(inputEl.current.value.length);
   };
 
+  const countdownDateGenerator = () => {
+    if (countdownDate) {
+      return countdownDate;
+    } else {
+      countdownDate = Date.now() + 180 * 1000;
+      return countdownDate;
+    }
+  };
+
+  countdownDate = countdownDateGenerator();
+
   return (
     <div>
       {loading === "false" ? (
@@ -140,7 +167,7 @@ function EroticPrompt(props) {
           <p> {result.prompt} </p>
           <CountdownTimer
             isActive={true}
-            seconds={180}
+            date={countdownDate}
             onFinish={() => {
               setSubmitted(true);
             }}

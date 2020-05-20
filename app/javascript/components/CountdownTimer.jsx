@@ -13,7 +13,7 @@ const CountdownTimerFormat = (props) => {
 const CountdownTimer = (props) => {
   return (
     <Countdown
-      date={Date.now() + props.seconds * 1000}
+      date={props.date}
       renderer={CountdownTimerFormat}
       onComplete={props.onFinish}
     />
