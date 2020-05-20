@@ -140,7 +140,7 @@ function EroticPrompt(props) {
           <p> {result.prompt} </p>
           <CountdownTimer
             isActive={true}
-            seconds={10}
+            seconds={180}
             onFinish={() => {
               setSubmitted(true);
             }}
