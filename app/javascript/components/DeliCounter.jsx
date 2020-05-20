@@ -11,6 +11,9 @@ const DeliCounter = (props) => {
   return (
     <div>
       <p>There {line_string} ahead of you in line.</p>
+      <p>
+        Please do not refresh the page, or you will lose your place in line.
+      </p>
     </div>
   );
 };
