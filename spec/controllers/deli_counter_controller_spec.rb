@@ -39,7 +39,7 @@ RSpec.describe DeliCounterController do
   end
 
   describe '#now_serving' do
-    let(:ticket) { build(:ticket) }
+    let(:ticket) { build(:ticket, checked_at: Time.now) }
     let(:calling_ticket) { build(:ticket) }
 
     before do
@@ -65,6 +65,22 @@ RSpec.describe DeliCounterController do
 
         expect(response.code).to eq('200')
         expect(JSON.parse(response.body)).to eq({})
+      end
+    end
+
+    context 'when ticket is old' do
+      let(:ticket) { build(:ticket, checked_at: 20.seconds.ago) }
+      it 'clears it out and gets a new ticket' do
+        allow(Ticket).to receive(:where).and_return([calling_ticket])
+        allow(TicketCalledTimeoutJob).to receive(:perform_now)
+        expect(Ticket).to receive(:now_serving)
+        expect(Ticket).to receive(:where)
+        expect(TicketCalledTimeoutJob).to receive(:perform_now).with(ticket.id)
+
+        post :now_serving, params: { ticket: calling_ticket.id, token: calling_ticket.token }
+
+        expect(response.code).to eq('200')
+        expect(JSON.parse(response.body)['ticket']).to eq(ticket.id)
       end
     end
   end
