@@ -30,8 +30,7 @@ class DeliCounterController < ApplicationController
     checking_ticket = Ticket.where(id: params[:ticket], token: params[:token]).first
     return render json: {} unless checking_ticket
 
-    checking_ticket.checked_at = Time.now
-    checking_ticket.save!
+    checking_ticket.check_in!
 
     response = {
       ticket: ticket.id

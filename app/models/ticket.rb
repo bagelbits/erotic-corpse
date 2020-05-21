@@ -28,6 +28,11 @@ class Ticket < ApplicationRecord
     self.checked_at = Time.now
   end
 
+  def check_in!
+    self.checked_at = Time.now
+    save!
+  end
+
   def skip!
     self.status = STATUSES[:closed]
     self.closure_code = CLOSURE_CODES[:skipped]

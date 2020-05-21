@@ -56,6 +56,21 @@ RSpec.describe Ticket, type: :model do
     end
   end
 
+  describe '#check_in!' do
+    let(:ticket) { Ticket.create }
+
+    it 'updates checked_at' do
+      time_now = Time.now.change(usec: 0)
+      time_future = Time.now.change(usec: 0) + 5.minutes
+
+      allow(Time).to receive(:now).and_return(time_now)
+      expect(ticket.checked_at).to eq(time_now)
+      allow(Time).to receive(:now).and_return(time_future)
+      ticket.check_in!
+      expect(ticket.checked_at).to eq(time_future)
+    end
+  end
+
   describe '#skip!' do
     let(:ticket) { Ticket.create }
 

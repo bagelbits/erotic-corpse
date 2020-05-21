@@ -32,6 +32,7 @@ class PromptsController < ApplicationController
     next_prompt = Prompt.last_prompt
     ticket = Ticket.find(params[:ticket])
     ticket.got_response!
+    ticket.check_in!
     TicketSubmitTimeoutJob.set(wait: 3.minutes).perform_later(ticket.id)
     render json: next_prompt
   end
