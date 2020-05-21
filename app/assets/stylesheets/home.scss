@@ -23,6 +23,12 @@ body {
   font-family: "Jost", sans-serif;
 }
 
+h2.prompt-title {
+  text-align: center;
+  margin-left: -820px;
+  padding: 20px 0px 15px 0px;
+}
+
 p.prompt {
   border: thin solid black;
   margin-left: auto;
@@ -31,4 +37,11 @@ p.prompt {
   width: 1100px;
   text-align: center;
   padding: 10px 20px 10px 20px;
+}
+
+p.instructions {
+  text-align: center;
+  width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }

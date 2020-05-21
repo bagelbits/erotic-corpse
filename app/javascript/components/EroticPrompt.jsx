@@ -149,10 +149,9 @@ function EroticPrompt(props) {
         <p>Something went terribly wrong.</p>
       ) : submitted === "false" ? (
         <div>
-          <h2> Here is your prompt: </h2>
+          <h2 class="prompt-title"> Here is your prompt: </h2>
           <p class="prompt"> {result.prompt} </p>
-          <br />
-          <p>
+          <p class="instructions">
             Enter your contribution to the erotic story below. No hate speech.
             No racist, misogynist, homophobic, transphobic, ableist, ageist
             contributions permitted. Please don't belittle anyone. Let's make
