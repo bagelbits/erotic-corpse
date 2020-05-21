@@ -2,9 +2,9 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import ReportModal from "./ReportModal";
 import CountdownTimer from "./CountdownTimer";
+import ReactHowler from "react-howler";
 
 const MAX_CHARACTERS = 280;
-let countdownDate;
 
 function getPrompt(reported, ticket, token) {
   const [result, setResult] = React.useState({});
@@ -30,21 +30,6 @@ function getPrompt(reported, ticket, token) {
   return [result, loading];
 }
 
-function memo(func) {
-  var cache = {};
-  return function () {
-    var key = JSON.stringify(arguments);
-    if (cache[key]) {
-      console.log(cache);
-      return cache[key];
-    } else {
-      val = func.apply(null, arguments);
-      cache[key] = val;
-      return val;
-    }
-  };
-}
-
 function EroticPrompt(props) {
   const [reported, setReported] = React.useState(false);
   const [result, loading] = getPrompt(reported, props.ticket, props.token);
@@ -54,6 +39,7 @@ function EroticPrompt(props) {
   const [countdownTime, setCountdownTime] = React.useState(
     Date.now() + 180 * 1000
   );
+  const [soundPlayed, setSoundPlayed] = React.useState(false);
 
   const submitEl = React.useRef(null);
   const reportEl = React.useRef(null);
@@ -147,6 +133,14 @@ function EroticPrompt(props) {
     setCharCounter(inputEl.current.value.length);
   };
 
+  const soundLink = document
+    .querySelector("meta[name='bell-sound']")
+    .getAttribute("content");
+
+  const turnOffSound = () => {
+    setSoundPlayed(true);
+  };
+
   return (
     <div>
       {loading === "false" ? (
@@ -198,6 +192,11 @@ function EroticPrompt(props) {
             onClose={closeReportModal}
             onReport={reportPrompt}
             promptId={result.id}
+          />
+          <ReactHowler
+            src={soundLink}
+            playing={soundPlayed == false}
+            onEnd={turnOffSound}
           />
         </div>
       ) : submitted === "null" ? (

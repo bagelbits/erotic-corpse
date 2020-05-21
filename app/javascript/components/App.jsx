@@ -96,6 +96,12 @@ function App() {
       ) : (
         <EroticPrompt ticket={result.ticket} token={result.token} />
       )}
+      <h1>Credits</h1>
+      <p>Designed by Caitlyn Kilgore and Chris Ward</p>
+      <p>Created by Chris Ward</p>
+      <p>
+        "Bell, Counter, A.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org
+      </p>
     </div>
   );
 }
