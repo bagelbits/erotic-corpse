@@ -98,4 +98,36 @@ RSpec.describe DeliCounterController do
       end
     end
   end
+
+  describe '#heartbeat' do
+    let(:ticket) { build(:ticket) }
+
+    it 'checks in the ticket' do
+      allow(Ticket).to receive(:find).and_return(ticket)
+      allow(ticket).to receive(:check_in!)
+      expect(Ticket).to receive(:find)
+      expect(ticket).to receive(:check_in!)
+
+      post :heartbeat, params: { ticket: ticket.id, token: ticket.token }
+
+      expect(response.code).to eq('200')
+      expect(JSON.parse(response.body)['success']).to eq(true)
+    end
+
+    context 'when ticket is closed' do
+      let(:ticket) { build(:ticket, status: Ticket::STATUSES[:closed]) }
+
+      it 'does nothing' do
+        allow(Ticket).to receive(:find).and_return(ticket)
+        allow(ticket).to receive(:check_in!)
+        expect(Ticket).to receive(:find)
+        expect(ticket).not_to receive(:check_in!)
+
+        post :heartbeat, params: { ticket: ticket.id, token: ticket.token }
+
+        expect(response.code).to eq('200')
+        expect(JSON.parse(response.body)['success']).to eq(false)
+      end
+    end
+  end
 end

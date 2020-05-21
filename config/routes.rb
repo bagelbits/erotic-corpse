@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     collection do
       post 'ticket'
       post 'now_serving'
+      post 'heartbeat'
     end
   end
 

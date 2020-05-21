@@ -37,4 +37,16 @@ class DeliCounterController < ApplicationController
     }
     render json: response
   end
+
+  def heartbeat
+    params.require(:ticket)
+    params.require(:token)
+
+    ticket = Ticket.find(params[:ticket])
+    return render json: { success: false } if ticket.closed?
+
+    ticket.check_in!
+
+    render json: { success: true }
+  end
 end

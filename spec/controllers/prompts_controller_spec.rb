@@ -59,9 +59,12 @@ RSpec.describe PromptsController do
       allow(Prompt).to receive(:last_prompt).and_return(prompt)
       allow(Ticket).to receive(:find).and_return(ticket)
       allow_any_instance_of(Ticket).to receive(:got_response!)
+      allow_any_instance_of(Ticket).to receive(:check_in!)
 
       expect(Prompt).to receive(:last_prompt)
       expect(Ticket).to receive(:find)
+      expect(ticket).to receive(:got_response!)
+      expect(ticket).to receive(:check_in!)
 
       get :last, params: { ticket: ticket.id, token: ticket.token }
       expect(response.code).to eq('200')
