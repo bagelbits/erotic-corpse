@@ -173,7 +173,6 @@ function EroticPrompt(props) {
               setSubmitted(true);
             }}
           />
-          {/* Maybe use bootstrap for this? */}
           <textarea
             class="form-control"
             ref={inputEl}
