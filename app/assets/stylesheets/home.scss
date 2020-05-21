@@ -37,9 +37,20 @@ p.prompt {
   width: 1100px;
   text-align: center;
   padding: 10px 20px 10px 20px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+p.prompt-question {
+  text-align: center;
+  margin-right: -925px;
+  font-style: italic;
+  font-size: 12px;
+  color: gray;
 }
 
 p.instructions {
+  padding: 20px 0px 15px 0px;
   text-align: center;
   width: 1100px;
   margin-left: auto;

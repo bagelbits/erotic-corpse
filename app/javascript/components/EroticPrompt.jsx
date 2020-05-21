@@ -33,7 +33,7 @@ function getPrompt(reported, ticket, token) {
 function EroticPrompt(props) {
   const [reported, setReported] = React.useState(false);
   const [result, loading] = getPrompt(reported, props.ticket, props.token);
-  const [charCounter, setCharCounter] = React.useState(0);
+  const [charCounter, setCharCounter] = React.useState(MAX_CHARACTERS);
   const [submitted, setSubmitted] = React.useState("false");
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
   const [countdownTime, setCountdownTime] = React.useState(
@@ -133,6 +133,10 @@ function EroticPrompt(props) {
     setCharCounter(inputEl.current.value.length);
   };
 
+  const updateCharCountdown = () => {
+    setCharCounter(MAX_CHARACTERS - inputEl.current.value.length);
+  };
+
   const soundLink = document
     .querySelector("meta[name='bell-sound']")
     .getAttribute("content");
@@ -149,15 +153,18 @@ function EroticPrompt(props) {
         <p>Something went terribly wrong.</p>
       ) : submitted === "false" ? (
         <div>
-          <h2 class="prompt-title"> Here is your prompt: </h2>
-          <p class="prompt"> {result.prompt} </p>
           <p class="instructions">
-            Enter your contribution to the erotic story below. No hate speech.
-            No racist, misogynist, homophobic, transphobic, ableist, ageist
-            contributions permitted. Please don't belittle anyone. Let's make
-            sexual expression safe and fun! If you see something that goes
-            against these guidelines, report it.
+            This journal was found by the pool, with the beginnings of this
+            fantasy. Enter your contribution to the erotic story below.
+            <br />
+            <br />
+            No hate speech. No racist, misogynist, homophobic, transphobic,
+            ableist, ageist, etc contributions permitted. Please don't belittle
+            anyone. Let's make sexual expression safe and fun. If you see
+            something that goes against these guidelines, report it.
           </p>
+          <p class="prompt"> {result.prompt} </p>
+          <p class="prompt-question">What happens next?</p>
           <CountdownTimer
             isActive={true}
             date={countdownTime}
@@ -170,12 +177,10 @@ function EroticPrompt(props) {
             ref={inputEl}
             placeholder="Give me the next sentence in the story! ;)"
             maxLength={MAX_CHARACTERS}
-            onChange={updateCharCounter}
+            onChange={updateCharCountdown}
           />
           <br />
-          <p>
-            {charCounter}/{MAX_CHARACTERS}
-          </p>
+          <p>{charCounter}</p>
           <br />
           <Button
             variant="primary"
