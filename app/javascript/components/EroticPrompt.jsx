@@ -150,7 +150,7 @@ function EroticPrompt(props) {
       ) : submitted === "false" ? (
         <div>
           <h2> Here is your prompt: </h2>
-          <p> {result.prompt} </p>
+          <p class="prompt"> {result.prompt} </p>
           <br />
           <p>
             Enter your contribution to the erotic story below. No hate speech.
@@ -159,13 +159,13 @@ function EroticPrompt(props) {
             sexual expression safe and fun! If you see something that goes
             against these guidelines, report it.
           </p>
-          <CountdownTimer
+          {/* <CountdownTimer
             isActive={true}
             date={countdownTime}
             onFinish={() => {
               setSubmitted(true);
             }}
-          />
+          /> */}
           {/* Maybe use bootstrap for this? */}
           <textarea
             ref={inputEl}
