@@ -7,16 +7,16 @@ class PromptsController < ApplicationController
     params.require(:prompt)
     params.require(:previous_prompt_id)
 
-    # TODO: Check ticket and token against now_serving
-    # This requires everything else to
-    # be setup.
+    ticket = Ticket.find(params[:ticket])
+    if ticket != Ticket.now_serving || ticket.token != params[:token]
+      return render json: {}
+    end
 
     new_prompt = Prompt.create(prompt: params[:prompt])
     old_prompt = Prompt.find(params[:previous_prompt_id])
     old_prompt.next_prompt = new_prompt.id
     old_prompt.save!
 
-    ticket = Ticket.find(params[:ticket])
     ticket.close!
 
     render json: new_prompt
@@ -26,24 +26,29 @@ class PromptsController < ApplicationController
     params.require(:ticket)
     params.require(:token)
 
-    # TODO: Check ticket and token against now_serving
-    # This requires everything else to
-    # be setup.
-    next_prompt = Prompt.last_prompt
     ticket = Ticket.find(params[:ticket])
+    if ticket != Ticket.now_serving || ticket.token != params[:token]
+      return render json: {}
+    end
+
     ticket.got_response!
     ticket.check_in!
     TicketSubmitTimeoutJob.set(wait: 3.minutes).perform_later(ticket.id)
-    render json: next_prompt
+
+    render json: Prompt.last_prompt
   end
 
   def report
     params.require(:ticket)
     params.require(:token)
 
-    # TODO: Check ticket and token against now_serving
-    # This requires everything else to
-    # be setup.
+    ticket = Ticket.find(params[:ticket])
+    if ticket != Ticket.now_serving || ticket.token != params[:token]
+      return render json: {
+        success: false,
+        error: "Unfortunately, you shouldn't have that ticket"
+      }
+    end
 
     prompt = Prompt.find(params[:id])
     prompt.report!

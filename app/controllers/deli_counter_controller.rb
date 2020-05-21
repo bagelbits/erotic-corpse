@@ -28,7 +28,7 @@ class DeliCounterController < ApplicationController
     end
 
     checking_ticket = Ticket.where(id: params[:ticket], token: params[:token]).first
-    return render json: {} unless checking_ticket
+    return render json: {} unless checking_ticket && checking_ticket.token == params[:token]
 
     checking_ticket.check_in!
 
@@ -43,7 +43,7 @@ class DeliCounterController < ApplicationController
     params.require(:token)
 
     ticket = Ticket.find(params[:ticket])
-    return render json: { success: false } if ticket.closed?
+    return render json: { success: false } if ticket.closed? || ticket.token != params[:token]
 
     ticket.check_in!
 
