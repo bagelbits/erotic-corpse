@@ -23,10 +23,17 @@ body {
   font-family: "Jost", sans-serif;
 }
 
-h2.prompt-title {
+div.deli-counter {
   text-align: center;
-  margin-left: -820px;
+  margin-top: 50px;
+}
+
+p.instructions {
   padding: 20px 0px 15px 0px;
+  text-align: center;
+  width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 p.prompt {
@@ -59,10 +66,50 @@ p.prompt-question {
   color: gray;
 }
 
-p.instructions {
-  padding: 20px 0px 15px 0px;
+div.time {
   text-align: center;
-  width: 1100px;
+  margin-left: -760px;
+  margin-top: -18px;
+}
+
+textarea.form-control {
+  width: 800px;
   margin-left: auto;
   margin-right: auto;
+}
+
+div.prompt-buttons {
+  text-align: center;
+  margin-top: -20px;
+  margin-left: -635px;
+}
+
+button#prompt_submit {
+  margin-right: 10px;
+}
+
+button#prompt_report {
+}
+
+p.char-counter {
+  text-align: center;
+  margin-top: 5px;
+  margin-right: -750px;
+  margin-bottom: 0px;
+}
+
+div.credits {
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+}
+
+p.credit {
+  margin-bottom: 5px;
+}
+
+h2.thank-you {
+  text-align: center;
+  margin-top: 200px;
 }

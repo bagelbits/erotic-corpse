@@ -5,6 +5,7 @@ import CountdownTimer from "./CountdownTimer";
 import ReactHowler from "react-howler";
 
 const MAX_CHARACTERS = 280;
+const COUNTDOWN_TIME = 180;
 
 function getPrompt(reported, ticket, token) {
   const [result, setResult] = React.useState({});
@@ -37,7 +38,7 @@ function EroticPrompt(props) {
   const [submitted, setSubmitted] = React.useState("false");
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
   const [countdownTime, setCountdownTime] = React.useState(
-    Date.now() + 180 * 1000
+    Date.now() + COUNTDOWN_TIME * 1000
   );
   const [soundPlayed, setSoundPlayed] = React.useState(false);
 
@@ -174,30 +175,32 @@ function EroticPrompt(props) {
           />
           {/* Maybe use bootstrap for this? */}
           <textarea
+            class="form-control"
             ref={inputEl}
             placeholder="Give me the next sentence in the story! ;)"
+            rows="3"
             maxLength={MAX_CHARACTERS}
             onChange={updateCharCountdown}
           />
-          <br />
-          <p>{charCounter}</p>
-          <br />
-          <Button
-            variant="primary"
-            id="prompt_submit"
-            ref={submitEl}
-            onClick={submitClicked}
-          >
-            Submit!
-          </Button>
-          <Button
-            variant="danger"
-            id="prompt_repot"
-            ref={reportEl}
-            onClick={openReportModal}
-          >
-            Report!
-          </Button>
+          <p class="char-counter">{charCounter}</p>
+          <div class="prompt-buttons">
+            <Button
+              variant="primary"
+              id="prompt_submit"
+              ref={submitEl}
+              onClick={submitClicked}
+            >
+              Submit!
+            </Button>
+            <Button
+              variant="danger"
+              id="prompt_report"
+              ref={reportEl}
+              onClick={openReportModal}
+            >
+              Report!
+            </Button>
+          </div>
 
           <ReportModal
             open={reportModalOpen}
@@ -214,7 +217,7 @@ function EroticPrompt(props) {
       ) : submitted === "null" ? (
         <p>Something went terribly wrong.</p>
       ) : (
-        <h2>Thank you for playing~!</h2>
+        <h2 class="thank-you">Thank you for playing~!</h2>
       )}
     </div>
   );

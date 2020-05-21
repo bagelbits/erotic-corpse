@@ -97,12 +97,15 @@ function App() {
       ) : (
         <EroticPrompt ticket={result.ticket} token={result.token} />
       )}
-      <h1>Credits</h1>
-      <p>Designed by Caitlyn Kilgore and Chris Ward</p>
-      <p>Created by Chris Ward</p>
-      <p>
-        "Bell, Counter, A.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org
-      </p>
+      <div class="credits">
+        <h1 class="credit-title">Credits</h1>
+        <p class="credit">Designed by Caitlyn Kilgore and Chris Ward</p>
+        <p class="credit">Created by Chris Ward</p>
+        <p class="credit">
+          "Bell, Counter, A.wav" by InspectorJ (www.jshaw.co.uk) of
+          Freesound.org
+        </p>
+      </div>
     </div>
   );
 }
