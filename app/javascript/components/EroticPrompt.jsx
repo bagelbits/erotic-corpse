@@ -158,13 +158,13 @@ function EroticPrompt(props) {
             sexual expression safe and fun! If you see something that goes
             against these guidelines, report it.
           </p>
-          {/* <CountdownTimer
+          <CountdownTimer
             isActive={true}
             date={countdownTime}
             onFinish={() => {
               setSubmitted(true);
             }}
-          /> */}
+          />
           {/* Maybe use bootstrap for this? */}
           <textarea
             ref={inputEl}
