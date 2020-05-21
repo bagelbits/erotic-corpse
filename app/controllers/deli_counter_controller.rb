@@ -22,7 +22,7 @@ class DeliCounterController < ApplicationController
     ticket = Ticket.now_serving
     return render json: {} unless ticket
 
-    if ticket.checked_at < 10.seconds.ago && !ticket.responded?
+    if ticket.checked_at < 10.seconds.ago
       TicketCalledTimeoutJob.perform_now(ticket.id)
       ticket = Ticket.now_serving
     end

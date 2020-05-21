@@ -9,7 +9,7 @@ const DeliCounter = (props) => {
     line_string = `are ${num_of_people} people`;
   }
   return (
-    <div class="deli-counter">
+    <div className="deli-counter">
       <p>There {line_string} ahead of you in line.</p>
       <p>
         Please do not refresh the page, or you will lose your place in line.

@@ -31,9 +31,47 @@ function getPrompt(reported, ticket, token) {
   return [result, loading];
 }
 
+function checkPulse(ticket, token, submitted) {
+  React.useEffect(() => {
+    async function postHeartbeat() {
+      try {
+        const csrf = document
+          .querySelector("meta[name='csrf-token']")
+          .getAttribute("content");
+        const body = {
+          ticket,
+          token,
+        };
+        const response = await fetch("/deli_counter/heartbeat", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-CSRF-Token": csrf,
+          },
+          body: JSON.stringify(body),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    let interval = null;
+    if (ticket && token) {
+      if (submitted === true) {
+        clearInterval(interval);
+      } else {
+        interval = setInterval(() => {
+          postHeartbeat();
+        }, 4000);
+      }
+    }
+    return () => clearInterval(interval);
+  }, [ticket, token, submitted]);
+}
+
 function EroticPrompt(props) {
   const [reported, setReported] = React.useState(false);
-  const [result, loading] = getPrompt(reported, props.ticket, props.token);
   const [charCounter, setCharCounter] = React.useState(MAX_CHARACTERS);
   const [submitted, setSubmitted] = React.useState("false");
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
@@ -41,6 +79,9 @@ function EroticPrompt(props) {
     Date.now() + COUNTDOWN_TIME * 1000
   );
   const [soundPlayed, setSoundPlayed] = React.useState(false);
+
+  const [result, loading] = getPrompt(reported, props.ticket, props.token);
+  checkPulse(props.ticket, props.token, submitted);
 
   const submitEl = React.useRef(null);
   const reportEl = React.useRef(null);
@@ -154,7 +195,7 @@ function EroticPrompt(props) {
         <p>Something went terribly wrong.</p>
       ) : submitted === "false" ? (
         <div>
-          <p class="instructions">
+          <p className="instructions">
             This journal was found by the pool, with the beginnings of this
             fantasy. Enter your contribution to the erotic story below.
             <br />
@@ -164,8 +205,8 @@ function EroticPrompt(props) {
             anyone. Let's make sexual expression safe and fun. If you see
             something that goes against these guidelines, report it.
           </p>
-          <p class="prompt"> {result.prompt} </p>
-          <p class="prompt-question">What happens next?</p>
+          <p className="prompt"> {result.prompt} </p>
+          <p className="prompt-question">What happens next?</p>
           <CountdownTimer
             isActive={true}
             date={countdownTime}
@@ -174,15 +215,15 @@ function EroticPrompt(props) {
             }}
           />
           <textarea
-            class="form-control"
+            className="form-control"
             ref={inputEl}
             placeholder="Give me the next sentence in the story! ;)"
             rows="3"
             maxLength={MAX_CHARACTERS}
             onChange={updateCharCountdown}
           />
-          <p class="char-counter">{charCounter}</p>
-          <div class="prompt-buttons">
+          <p className="char-counter">{charCounter}</p>
+          <div className="prompt-buttons">
             <Button
               variant="primary"
               id="prompt_submit"
@@ -216,7 +257,7 @@ function EroticPrompt(props) {
       ) : submitted === "null" ? (
         <p>Something went terribly wrong.</p>
       ) : (
-        <h2 class="thank-you">Thank you for playing~!</h2>
+        <h2 className="thank-you">Thank you for playing~!</h2>
       )}
     </div>
   );

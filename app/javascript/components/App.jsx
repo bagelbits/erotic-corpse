@@ -82,8 +82,8 @@ function App() {
 
   return (
     <div>
-      <h1 class="title">Welcome to Erotic Corpse</h1>
-      <h2 class="subtitle">a collaborative writing experience</h2>
+      <h1 className="title">Welcome to Erotic Corpse</h1>
+      <h2 className="subtitle">a collaborative writing experience</h2>
       {loading === "false" ? (
         <p>Loading...</p>
       ) : loading === "null" ? (
@@ -97,11 +97,11 @@ function App() {
       ) : (
         <EroticPrompt ticket={result.ticket} token={result.token} />
       )}
-      <div class="credits">
-        <h1 class="credit-title">Credits</h1>
-        <p class="credit">Designed by Caitlyn Kilgore and Chris Ward</p>
-        <p class="credit">Created by Chris Ward</p>
-        <p class="credit">
+      <div className="credits">
+        <h1 className="credit-title">Credits</h1>
+        <p className="credit">Designed by Caitlyn Kilgore and Chris Ward</p>
+        <p className="credit">Created by Chris Ward</p>
+        <p className="credit">
           "Bell, Counter, A.wav" by InspectorJ (www.jshaw.co.uk) of
           Freesound.org
         </p>
