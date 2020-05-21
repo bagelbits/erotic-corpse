@@ -1,3 +1,24 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+@import url("https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jost&display=swap");
+
+h1.title {
+  font-family: "Homemade Apple", cursive;
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+h2.subtitle {
+  font-family: "Homemade Apple", cursive;
+  text-align: center;
+  font-size: 1.7rem;
+  margin-top: -20px;
+}
+
+body {
+  font-family: "Jost", sans-serif;
+}

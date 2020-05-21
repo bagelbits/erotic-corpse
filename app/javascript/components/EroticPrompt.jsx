@@ -151,6 +151,14 @@ function EroticPrompt(props) {
         <div>
           <h2> Here is your prompt: </h2>
           <p> {result.prompt} </p>
+          <br />
+          <p>
+            Enter your contribution to the erotic story below. No hate speech.
+            No racist, misogynist, homophobic, transphobic, ableist, ageist
+            contributions permitted. Please don't belittle anyone. Let's make
+            sexual expression safe and fun! If you see something that goes
+            against these guidelines, report it.
+          </p>
           <CountdownTimer
             isActive={true}
             date={countdownTime}

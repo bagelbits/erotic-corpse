@@ -82,7 +82,8 @@ function App() {
 
   return (
     <div>
-      <h1>Welcome to Erotic Corpse</h1>
+      <h1 class="title">Welcome to Erotic Corpse</h1>
+      <h2 class="subtitle">a collaborative writing experience</h2>
       {loading === "false" ? (
         <p>Loading...</p>
       ) : loading === "null" ? (
