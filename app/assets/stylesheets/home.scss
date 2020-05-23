@@ -21,6 +21,8 @@ h2.subtitle {
 
 body {
   font-family: "Jost", sans-serif;
+  color: whitesmoke;
+  background-color: #545454;
 }
 
 div.deli-counter {
@@ -37,7 +39,7 @@ p.instructions {
 }
 
 p.prompt {
-  border: thin solid black;
+  border: thin solid whitesmoke;
   margin-left: auto;
   margin-right: auto;
   border-radius: 10px;
