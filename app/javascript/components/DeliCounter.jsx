@@ -14,9 +14,12 @@ const DeliCounter = (props) => {
       <p>
         Please do not refresh the page, or you will lose your place in line.
       </p>
-      <br />
-      <p>Feel free to listen to Radio KTSK while you wait!</p>
-      <audio controls="true" src="http://nthmost.net:8000/kstk"></audio>
+      <p>
+        <a href="http://nthmost.net:8000/kstk" target="_blank">
+          Click here
+        </a>{" "}
+        to listen to Radio KTSK while you wait!
+      </p>
     </div>
   );
 };
