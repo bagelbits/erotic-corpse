@@ -70,6 +70,33 @@ function checkPulse(ticket, token, submitted) {
   }, [ticket, token, submitted]);
 }
 
+function getStory(ticket, token, submitted) {
+  const [result, setResult] = React.useState({});
+
+  React.useEffect(() => {
+    async function fetchStory() {
+      try {
+        const response = await fetch(
+          `/prompts/story?ticket=${ticket}&token=${token}`
+        );
+        const json = await response.json();
+        setResult(json);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    console.log(ticket);
+    console.log(token);
+    console.log(submitted);
+
+    if (ticket && token && submitted === true) {
+      fetchStory();
+    }
+  }, [ticket, token, submitted]);
+
+  return result;
+}
+
 function EroticPrompt(props) {
   const [reported, setReported] = React.useState(false);
   const [charCounter, setCharCounter] = React.useState(MAX_CHARACTERS);
@@ -81,6 +108,7 @@ function EroticPrompt(props) {
   const [soundPlayed, setSoundPlayed] = React.useState(false);
 
   const [result, loading] = getPrompt(reported, props.ticket, props.token);
+  const fullStory = getStory(props.ticket, props.token, submitted);
   checkPulse(props.ticket, props.token, submitted);
 
   const submitEl = React.useRef(null);
@@ -119,7 +147,7 @@ function EroticPrompt(props) {
         setSubmitted("null");
       }
 
-      setSubmitted("true");
+      setSubmitted(true);
     }
 
     postPrompt();
@@ -185,6 +213,18 @@ function EroticPrompt(props) {
 
   const turnOffSound = () => {
     setSoundPlayed(true);
+  };
+
+  const printStory = (fullStory) => {
+    if (!fullStory.full_story) {
+      return "";
+    }
+    let story = "";
+
+    fullStory.full_story.forEach(function (item, index) {
+      story += item.prompt + " ";
+    });
+    return story;
   };
 
   return (
@@ -257,7 +297,10 @@ function EroticPrompt(props) {
       ) : submitted === "null" ? (
         <p>Something went terribly wrong.</p>
       ) : (
-        <h2 className="thank-you">Thank you for playing~!</h2>
+        <div>
+          <h2 className="thank-you">Thank you for playing~!</h2>
+          <p className="story">{printStory(fullStory)}</p>
+        </div>
       )}
     </div>
   );
