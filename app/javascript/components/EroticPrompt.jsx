@@ -217,7 +217,7 @@ function EroticPrompt(props) {
 
   const printStory = (fullStory) => {
     if (!fullStory.full_story) {
-      return "";
+      return "Please give a prompt to see the whole story.";
     }
     let story = "";
 
