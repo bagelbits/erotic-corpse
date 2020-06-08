@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :prompts do
     collection do
       get 'last'
+      get 'story'
     end
 
     member do

@@ -47,6 +47,88 @@ RSpec.describe PromptsController do
     end
   end
 
+  describe '#story' do
+    let(:third_prompt) { build(:prompt, prompt: 'This is a test 3') }
+    let(:second_prompt) do
+      build(:prompt, prompt: 'This is a test 2', next_prompt: third_prompt.id)
+    end
+    let(:first_prompt) do
+      build(:prompt, prompt: 'This is a test 1', next_prompt: second_prompt.id)
+    end
+
+    let(:full_story) do
+      [
+        { prompt: first_prompt.prompt, reported: first_prompt.reported },
+        { prompt: second_prompt.prompt, reported: second_prompt.reported },
+        { prompt: third_prompt.prompt, reported: third_prompt.reported }
+      ]
+    end
+    let(:ticket) { build(:ticket) }
+
+    it 'gives the full story' do
+      allow(Prompt).to receive(:full_story).and_return(full_story)
+      allow(Ticket).to receive(:find).and_return(ticket)
+      allow(ticket).to receive(:closed?).and_return(true)
+
+      expect(Ticket).to receive(:find)
+      expect(ticket).to receive(:closed?)
+      expect(Prompt).to receive(:full_story)
+
+      get :story, params: { ticket: ticket.id, token: ticket.token }
+      expect(response.code).to eq('200')
+      expect(JSON.parse(response.body)['full_story']).to eq(full_story.map(&:stringify_keys))
+    end
+
+    context 'with missing ticket' do
+      it 'fails' do
+        expect do
+          get :story, params: { token: 'token' }
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: ticket')
+      end
+    end
+
+    context 'with missing token' do
+      it 'fails' do
+        expect do
+          get :story, params: { ticket: 1 }
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: token')
+      end
+    end
+
+    context 'when ticket is not closed' do
+      it 'returns nothing' do
+        allow(Prompt).to receive(:full_story).and_return(full_story)
+        allow(Ticket).to receive(:find).and_return(ticket)
+        allow(ticket).to receive(:closed?).and_return(false)
+
+        expect(Ticket).to receive(:find)
+        expect(ticket).to receive(:closed?)
+        expect(Prompt).not_to receive(:full_story)
+
+        get :story, params: { ticket: ticket.id, token: ticket.token }
+        expect(response.code).to eq('200')
+        expect(JSON.parse(response.body)).to eq({})
+      end
+    end
+
+    context 'when token does not match ticket' do
+      let(:fake_ticket) { build(:ticket, id: ticket.id) }
+      it 'returns nothing' do
+        allow(Prompt).to receive(:full_story).and_return(full_story)
+        allow(Ticket).to receive(:find).and_return(ticket)
+        allow(ticket).to receive(:closed?).and_return(true)
+
+        expect(Ticket).to receive(:find)
+        expect(ticket).to receive(:closed?)
+        expect(Prompt).not_to receive(:full_story)
+
+        get :story, params: { ticket: ticket.id, token: fake_ticket.token }
+        expect(response.code).to eq('200')
+        expect(JSON.parse(response.body)).to eq({})
+      end
+    end
+  end
+
   describe '#last' do
     let(:prompt) { build(:prompt) }
     let(:ticket) { build(:ticket) }

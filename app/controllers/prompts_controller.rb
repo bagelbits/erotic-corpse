@@ -22,6 +22,16 @@ class PromptsController < ApplicationController
     render json: new_prompt
   end
 
+  def story
+    params.require(:ticket)
+    params.require(:token)
+
+    ticket = Ticket.find(params[:ticket])
+    return render json: {} if !ticket.closed? || ticket.token != params[:token]
+
+    render json: { full_story: Prompt.full_story }
+  end
+
   def last
     params.require(:ticket)
     params.require(:token)
