@@ -1,5 +1,5 @@
 language: ruby
-rvm: 2.6.0
+rvm: 2.6.6
 cache:
   bundler: true
   directories:
@@ -7,16 +7,12 @@ cache:
   yarn: true
 before_install:
   - mysql -e 'CREATE DATABASE erotic_corpse_test;'
-install:
-  - travis_retry nvm install 11.7.0
-  - node -v
-  - travis_retry npm i -g yarn
-  - travis_retry bundle install
-  - travis_retry yarn
-  - bundle
-  - yarn
+  - nvm install 12
 script:
+  - yarn
+  - bundle exec rails db:migrate
   - bundle exec rake db:reset
+  - bundle exec rails webpacker:compile
   - bundle exec rspec
 services:
   - mysql

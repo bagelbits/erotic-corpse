@@ -256,9 +256,9 @@ DEPENDENCIES
   listen (~> 3.2)
   mysql2 (>= 0.4.4)
   puma (~> 4.3.5)
-  rails (~> 6.0.3.1)
-  react-rails (~> 2.6)
-  rspec-rails (~> 4.0.0)
+  rails (~> 6.0.3, >= 6.0.3.3)
+  react-rails
+  rspec-rails (~> 4.0)
   sass-rails (>= 6)
   spring
   spring-watcher-listen (~> 2.0.0)
@@ -268,7 +268,7 @@ DEPENDENCIES
   webpacker (~> 4.0)
 
 RUBY VERSION
-   ruby 2.6.0p0
+   ruby 2.6.6p146
 
 BUNDLED WITH
    1.17.3
