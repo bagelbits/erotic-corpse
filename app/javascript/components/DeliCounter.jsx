@@ -1,21 +1,29 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const DeliCounter = (props) => {
-  const num_of_people = props.ticket - props.nowServing - 1;
-  let line_string;
-  if (num_of_people === 1) {
-    line_string = `is ${num_of_people} person`;
+const DeliCounter = ({ ticket, nowServing }) => {
+  const numOfPeople = ticket - nowServing - 1;
+  let lineString;
+  if (numOfPeople === 1) {
+    lineString = `is ${numOfPeople} person`;
   } else {
-    line_string = `are ${num_of_people} people`;
+    lineString = `are ${numOfPeople} people`;
   }
   return (
     <div className="deli-counter">
-      <p>There {line_string} ahead of you in line.</p>
-      <p>
-        Please do not refresh the page, or you will lose your place in line.
-      </p>
+      <p>There {lineString} ahead of you in line.</p>
+      <p>Please do not refresh the page, or you will lose your place in line.</p>
     </div>
   );
+};
+
+DeliCounter.defaultProps = {
+  nowServing: null,
+};
+
+DeliCounter.propTypes = {
+  ticket: PropTypes.number.isRequired,
+  nowServing: PropTypes.number,
 };
 
 export default DeliCounter;

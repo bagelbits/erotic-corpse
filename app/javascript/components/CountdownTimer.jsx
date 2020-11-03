@@ -1,23 +1,25 @@
-import React from "react";
-import Countdown from "react-countdown";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Countdown from 'react-countdown';
 
-const CountdownTimerFormat = (props) => {
-  const secondsString = `${props.seconds % 60}`.padStart(2, "0");
-  return (
-    <div className="time">
-      {props.minutes}:{secondsString}
-    </div>
-  );
+const CountdownTimerFormat = ({ seconds, minutes }) => {
+  const secondsString = `${seconds % 60}`.padStart(2, '0');
+  const timeString = `${minutes}:${secondsString}`;
+  return <div className="time">{timeString}</div>;
 };
 
-const CountdownTimer = (props) => {
-  return (
-    <Countdown
-      date={props.date}
-      renderer={CountdownTimerFormat}
-      onComplete={props.onFinish}
-    />
-  );
+const CountdownTimer = ({ date, onFinish }) => {
+  return <Countdown date={date} renderer={CountdownTimerFormat} onComplete={onFinish} />;
+};
+
+CountdownTimerFormat.propTypes = {
+  seconds: PropTypes.number.isRequired,
+  minutes: PropTypes.number.isRequired,
+};
+
+CountdownTimer.propTypes = {
+  date: PropTypes.number.isRequired,
+  onFinish: PropTypes.func.isRequired,
 };
 
 export default CountdownTimer;
