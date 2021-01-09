@@ -54,6 +54,12 @@ jobs:
         run: |
           yarn install --pure-lockfile
 
+      - name: Shutdown Ubuntu MySQL (SUDO)
+        run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+      - uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: 'erotic_corpse_test' # Optional, default value is "test". The specified database which will be create
+          mysql root password: '' # Required if "mysql user" is empty, default is empty. The root superuser password
       - name: Setup test database
         env:
           RAILS_ENV: test
