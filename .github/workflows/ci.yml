@@ -17,6 +17,15 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
+        services:
+      # How to use MySQL
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: ''
+        ports:
+        - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout code
@@ -54,12 +63,6 @@ jobs:
         run: |
           yarn install --pure-lockfile
 
-      - name: Shutdown Ubuntu MySQL (SUDO)
-        run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
-      - uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: 'erotic_corpse_test' # Optional, default value is "test". The specified database which will be create
-          mysql root password: '' # Required if "mysql user" is empty, default is empty. The root superuser password
       - name: Setup test database
         env:
           RAILS_ENV: test
