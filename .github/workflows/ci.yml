@@ -66,6 +66,9 @@ jobs:
 
       - run: |
           sudo /etc/init.d/mysql start
+      - name: Setup Runner Database
+        run: |
+          mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS erotic_corpse_test;'
       - name: Setup test database
         env:
           RAILS_ENV: test
