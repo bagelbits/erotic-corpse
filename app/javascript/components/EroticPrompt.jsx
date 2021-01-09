@@ -216,8 +216,8 @@ function EroticPrompt({ ticket, token }) {
     renderedComponent = (
       <div>
         <p className="instructions">
-          This journal was found by the pool, with the beginnings of this fantasy. Enter your
-          contribution to the erotic story below.
+          This journal was found on the casino floor. It's full of collected erotic writings.
+          Contribute your fantasy to the story below by telling us what happens next.
           <br />
           <br />
           No hate speech. No racist, misogynist, homophobic, transphobic, ableist, ageist, etc
