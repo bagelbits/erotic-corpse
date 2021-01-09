@@ -2,25 +2,25 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-@import url("https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Jost&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
 
 h1.title {
-  font-family: "Homemade Apple", cursive;
+  font-family: 'Homemade Apple', cursive;
   text-align: center;
   padding-top: 25px;
   padding-bottom: 25px;
 }
 
 h2.subtitle {
-  font-family: "Homemade Apple", cursive;
+  font-family: 'Homemade Apple', cursive;
   text-align: center;
   font-size: 1.7rem;
   margin-top: -20px;
 }
 
 body {
-  font-family: "Jost", sans-serif;
+  font-family: 'Jost', sans-serif;
   color: whitesmoke;
   background-color: #545454;
 }
@@ -58,6 +58,7 @@ p.story {
   border: thin solid black;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 143px;
   border-radius: 10px;
   width: 1100px;
   text-align: center;
@@ -106,7 +107,7 @@ p.char-counter {
 
 div.credits {
   text-align: right;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 10px;
 }
