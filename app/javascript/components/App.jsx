@@ -96,8 +96,6 @@ function App() {
       <h1 className="title">Welcome to Erotic Corpse</h1>
       <h2 className="subtitle">a collaborative writing experience</h2>
       {renderedComponent}
-      <p>Feel free to listen to Radio KTSK while you write!</p>
-      <audio controls="true" src="https://kstk.rocks:8443/kstk"></audio>
       <div className="credits">
         <h1 className="credit-title">Credits</h1>
         <p className="credit">Designed by Caitlyn Kilgore and Chris Ward</p>

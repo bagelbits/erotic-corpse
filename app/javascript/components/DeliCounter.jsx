@@ -13,6 +13,13 @@ const DeliCounter = ({ ticket, nowServing }) => {
     <div className="deli-counter">
       <p>There {lineString} ahead of you in line.</p>
       <p>Please do not refresh the page, or you will lose your place in line.</p>
+      <br />
+      <p>Feel free to listen to Radio KTSK while you wait!</p>
+      <ReactAudioPlayer
+  src="https://kstk.rocks:8443/kstk"
+  autoPlay
+  controls
+/>
     </div>
   );
 };
