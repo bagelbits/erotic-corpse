@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import ReactHowler from 'react-howler';
+import ReactAudioPlayer from 'react-audio-player';
 import ReportModal from './ReportModal';
 import CountdownTimer from './CountdownTimer';
 
@@ -250,6 +251,10 @@ function EroticPrompt({ ticket, token }) {
           <Button variant="danger" id="prompt_report" ref={reportEl} onClick={openReportModal}>
             Report!
           </Button>
+        </div>
+        <div className="audio-player">
+          <p>Feel free to listen to Radio KTSK while you write!</p>
+          <ReactAudioPlayer src="https://kstk.rocks:8443/kstk" autoPlay controls />
         </div>
 
         <ReportModal
