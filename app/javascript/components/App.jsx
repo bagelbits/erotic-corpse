@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactAudioPlayer from 'react-audio-player';
 import DeliCounter from './DeliCounter';
 import EroticPrompt from './EroticPrompt';
 
@@ -96,6 +97,10 @@ function App() {
       <h1 className="title">Welcome to Erotic Corpse</h1>
       <h2 className="subtitle">a collaborative writing experience</h2>
       {renderedComponent}
+      <div className="audio-player">
+        <p>Feel free to listen to Radio KTSK while you wait or write!</p>
+        <ReactAudioPlayer src="https://kstk.rocks:8443/kstk" autoPlay controls />
+      </div>
       <div className="credits">
         <h1 className="credit-title">Credits</h1>
         <p className="credit">Designed by Caitlyn Kilgore and Chris Ward</p>
