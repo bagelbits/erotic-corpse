@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactAudioPlayer from 'react-audio-player';
-import DeliCounter from './DeliCounter';
-import EroticPrompt from './EroticPrompt';
+import DeliCounter from './app/DeliCounter';
+import EroticPrompt from './app/EroticPrompt';
 
 function getTicket() {
   const [result, setResult] = React.useState({});
