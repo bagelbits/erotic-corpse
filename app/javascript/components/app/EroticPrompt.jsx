@@ -221,9 +221,8 @@ function EroticPrompt({ ticket, token }) {
           <br />
           <br />
           No hate speech. No racist, misogynist, homophobic, transphobic, ableist, ageist, etc
-          contributions permitted. Please don$apos;t belittle anyone. Let$apos;s make sexual
-          expression safe and fun. If you see something that goes against these guidelines, report
-          it.
+          contributions permitted. Please don't belittle anyone. Let's make sexual expression safe
+          and fun. If you see something that goes against these guidelines, report it.
         </p>
         <p className="prompt"> {result.prompt} </p>
         <p className="prompt-question">What happens next?</p>
