@@ -64,7 +64,7 @@ jobs:
           yarn install --pure-lockfile
 
       - run: |
-          sudo /etc/init.d/mysql start
+          sudo service mysql start
       - name: Setup Runner Database
         run: |
           mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS erotic_corpse_test;'
