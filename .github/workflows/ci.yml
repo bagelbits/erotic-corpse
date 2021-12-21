@@ -69,10 +69,9 @@ jobs:
         run: |
           mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS erotic_corpse_test;'
       - name: Setup test database
+        run: bundle exec rails db:setup
         env:
           RAILS_ENV: test
-        run: |
-          bin/rails db:setup
 
       - name: Run tests
         env:
