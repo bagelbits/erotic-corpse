@@ -95,10 +95,10 @@ p.story {
 }
 
 p.prompt-question {
-  text-align: center;
   float: right;
   margin-right: 10%;
   @media only screen and (min-width: 1140px) {
+    text-align: center;
     float: none;
     margin-left: 925px;
   }
@@ -128,9 +128,10 @@ textarea.form-control {
 }
 
 div.prompt-buttons {
-  margin-top: -20px;
+  margin-top: 10px;
   margin-left: 10%;
   @media only screen and (min-width: 1140px) {
+    margin-top: -20px;
     text-align: center;
     margin-left: -635px;
   }
@@ -141,9 +142,14 @@ button#prompt_submit {
 }
 
 p.char-counter {
-  text-align: center;
   margin-top: 5px;
-  margin-left: 750px;
+  float: right;
+  margin-right: 10%;
+  @media only screen and (min-width: 1140px) {
+    text-align: center;
+    float: none;
+    margin-left: 925px;
+  }
   margin-bottom: 0px;
 }
 
