@@ -2,15 +2,13 @@
 
 class DeliCounterController < ApplicationController
   def ticket
-    ticket = Ticket.create
+    ticket = Ticket.create(status: Ticket::STATUSES[:open])
 
-    if ticket.id == Ticket.now_serving.id
-      TicketCalledTimeoutJob.set(wait: 10.seconds).perform_later(ticket.id)
-    end
+    TicketCalledTimeoutJob.set(wait: 10.seconds).perform_later(ticket.id) if ticket.id == Ticket.now_serving.id
 
     response = {
       ticket: ticket.id,
-      token: ticket.token
+      token: ticket.token,
     }
     render json: response
   end
@@ -33,7 +31,7 @@ class DeliCounterController < ApplicationController
     checking_ticket.check_in!
 
     response = {
-      ticket: ticket.id
+      ticket: ticket.id,
     }
     render json: response
   end

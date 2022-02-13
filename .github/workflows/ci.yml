@@ -14,6 +14,22 @@ on:
     branches: [main]
 
 jobs:
+  rubocop-test:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Run rubocop with reviewdog
+        uses: reviewdog/action-rubocop@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          rubocop_version: gemfile
+          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile
+          reporter: github-pr-review
+          fail_on_error: true
   tests:
     name: Tests
     runs-on: ubuntu-latest
@@ -67,14 +83,16 @@ jobs:
           sudo service mysql start
       - name: Setup Runner Database
         run: |
-          mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS erotic_corpse_test;'
+          mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS bawdy_electorate_test;'
       - name: Setup test database
         env:
           RAILS_ENV: test
+          DATABASE_PASSWORD: root
         run: |
           bin/rails db:setup
 
       - name: Run tests
         env:
           RAILS_ENV: test
+          DATABASE_PASSWORD: root
         run: bundle exec rspec

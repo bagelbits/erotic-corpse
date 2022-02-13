@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Prompt < ActiveRecord::Base
+class Prompt < ApplicationRecord
   self.table_name = 'prompts'
 
   class << self

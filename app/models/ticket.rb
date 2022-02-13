@@ -8,12 +8,12 @@ class Ticket < ApplicationRecord
   STATUSES = {
     open: 'open',
     responded: 'responded',
-    closed: 'closed'
+    closed: 'closed',
   }.freeze
 
   CLOSURE_CODES = {
     skipped: 'skipped',
-    submitted: 'submitted'
+    submitted: 'submitted',
   }.freeze
 
   class << self
@@ -22,14 +22,15 @@ class Ticket < ApplicationRecord
     end
   end
 
+  validates :status, presence: true, inclusion: { in: STATUSES.values }
+
   before_create do
     self.token = SecureRandom.uuid
-    self.status = STATUSES[:open]
-    self.checked_at = Time.now
+    self.checked_at = Time.zone.now
   end
 
   def check_in!
-    self.checked_at = Time.now
+    self.checked_at = Time.zone.now
     save!
   end
 
