@@ -34,7 +34,8 @@ module EroticCorpse
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :sidekiq
+    Sidekiq.configure_server { |c| c.redis = { url: ENV['REDIS_URL'] } }
 
     if ENV['RUN_TYPE'] == 'web' || Rails.env.test?
       config.after_initialize do
