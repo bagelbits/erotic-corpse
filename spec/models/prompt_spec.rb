@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
-RSpec.describe 'Prompt' do
-  let!(:root_prompt) { Prompt.create(id: 1, prompt: 'This is a test') }
+describe 'Prompt' do
+  let!(:root_prompt) { create(:prompt, id: 1, prompt: 'This is a test') }
 
   describe ':last_prompt' do
-    let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
-    let(:second_prompt) { Prompt.create(prompt: 'This is a test') }
-    let(:third_prompt) { Prompt.create(prompt: 'This is a test') }
+    let(:first_prompt) { create(:prompt, prompt: 'This is a test') }
+    let(:second_prompt) { create(:prompt, prompt: 'This is a test') }
+    let(:third_prompt) { create(:prompt, prompt: 'This is a test') }
 
     it 'gives the last Prompt without a next_prompt' do
       root_prompt.next_prompt = first_prompt.id
@@ -46,7 +44,7 @@ RSpec.describe 'Prompt' do
   end
 
   describe ':full_story' do
-    let(:first_prompt) { Prompt.create(prompt: 'This is a test 1') }
+    let(:first_prompt) { create(:prompt, prompt: 'This is a test 1') }
     let(:second_prompt) { Prompt.create(prompt: 'This is a test 2') }
     let(:third_prompt) { Prompt.create(prompt: 'This is a test 3') }
     let(:expected_full_story) do
@@ -84,84 +82,83 @@ RSpec.describe 'Prompt' do
     end
   end
 
-  describe '#validate' do
+  describe '#valid?' do
     describe '.prompt' do
+      let(:prompt) { build(:prompt, prompt: nil) }
+
       it 'must have a prompt' do
-        expect { Prompt.create! }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(prompt.valid?).to eq(false)
+        expect(prompt.errors.messages[:prompt]).to eq(['can\'t be blank'])
       end
     end
 
     describe '.next_prompt' do
-      let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
-      let(:second_prompt) { Prompt.create(prompt: 'This is a test') }
+      let(:first_prompt) { create(:prompt, prompt: 'This is a test') }
+      let(:second_prompt) { create(:prompt, prompt: 'This is a test') }
 
       context 'when next_prompt does not change' do
         it 'is valid' do
-          first_prompt.save!
+          expect(first_prompt.valid?).to eq(true)
         end
       end
 
       context 'when next_prompt does not exist' do
         it 'is invalid' do
-          first_prompt.save!
+          expect(first_prompt.valid?).to eq(true)
 
           last_prompt = Prompt.last
           first_prompt.next_prompt = last_prompt.id + 1
 
-          expect { first_prompt.save! }.to raise_error(
-            ActiveRecord::RecordInvalid,
-            'Validation failed: Next prompt does not exist'
-          )
+          expect(first_prompt.valid?).to eq(false)
+          expect(first_prompt.errors.messages[:next_prompt]).to eq(['does not exist'])
         end
       end
 
       context 'when child prompt has child prompt' do
-        let(:third_prompt) { Prompt.create(prompt: 'This is a test') }
+        let(:third_prompt) { create(:prompt, prompt: 'This is a test') }
 
         it 'is invalid' do
           second_prompt.next_prompt = third_prompt.id
           second_prompt.save!
           first_prompt.next_prompt = second_prompt.id
-          expect { first_prompt.save! }.to raise_error(
-            ActiveRecord::RecordInvalid,
-            'Validation failed: Next prompt is not a leaf'
-          )
+          expect(first_prompt.valid?).to eq(false)
+          expect(first_prompt.errors.messages[:next_prompt]).to eq(['is not a leaf'])
         end
       end
 
       context 'when child prompt is reported' do
         it 'is invalid' do
-          first_prompt.save!
+          first_prompt
           second_prompt.report!
           first_prompt.next_prompt = second_prompt.id
-          expect { first_prompt.save! }.to raise_error(
-            ActiveRecord::RecordInvalid,
-            'Validation failed: Next prompt has been reported'
-          )
+          expect(first_prompt.valid?).to eq(false)
+          expect(first_prompt.errors.messages[:next_prompt]).to eq(['has been reported'])
         end
       end
 
       context 'when next_prompt was already set' do
-        let(:third_prompt) { Prompt.create(prompt: 'This is a test') }
+        let(:third_prompt) { create(:prompt, prompt: 'This is a test') }
 
         it 'is invalid' do
           first_prompt.next_prompt = second_prompt.id
           first_prompt.save!
           first_prompt.next_prompt = third_prompt.id
-          expect { first_prompt.save! }.to raise_error(
-            ActiveRecord::RecordInvalid,
-            'Validation failed: Next prompt cannot be changed if already set and child prompt is not reported'
+          expect(first_prompt.valid?).to eq(false)
+          expect(first_prompt.errors.messages[:next_prompt]).to eq(
+            ['cannot be changed if already set and child prompt is not reported']
           )
         end
+      end
 
-        context 'when previous child prompt was reported' do
-          it 'is valid' do
-            first_prompt.next_prompt = second_prompt.id
-            first_prompt.save!
-            second_prompt.report!
-            first_prompt.next_prompt = third_prompt.id
-            first_prompt.save!
-          end
+      context 'when next_prompt was already set and previous child prompt was reported' do
+        let(:third_prompt) { create(:prompt, prompt: 'This is a test') }
+
+        it 'is valid' do
+          first_prompt.next_prompt = second_prompt.id
+          first_prompt.save!
+          second_prompt.report!
+          first_prompt.next_prompt = third_prompt.id
+          expect(first_prompt.valid?).to eq(true)
         end
       end
     end
@@ -172,26 +169,22 @@ RSpec.describe 'Prompt' do
           expect(root_prompt.reported).to eq(false)
 
           root_prompt.reported = true
-          expect { root_prompt.save! }.to raise_error(
-            ActiveRecord::RecordInvalid,
-            'Validation failed: Reported can not be set for story root'
-          )
+          expect(root_prompt.valid?).to eq(false)
+          expect(root_prompt.errors.messages[:reported]).to eq(['can not be set for story root'])
         end
       end
 
       context 'with next_prompt set' do
-        let(:first_prompt) { Prompt.create(prompt: 'This is a test') }
-        let(:second_prompt) { Prompt.create(prompt: 'This is a test') }
+        let(:first_prompt) { create(:prompt, prompt: 'This is a test') }
+        let(:second_prompt) { create(:prompt, prompt: 'This is a test') }
 
         it 'is invalid' do
           first_prompt.next_prompt = second_prompt.id
           first_prompt.save!
 
           first_prompt.reported = true
-          expect { first_prompt.save! }.to raise_error(
-            ActiveRecord::RecordInvalid,
-            'Validation failed: Reported can not be set for locked in story'
-          )
+          expect(first_prompt.valid?).to eq(false)
+          expect(first_prompt.errors.messages[:reported]).to eq(['can not be set for locked in story'])
         end
       end
     end
@@ -199,7 +192,7 @@ RSpec.describe 'Prompt' do
 
   describe '#report' do
     it 'marks prompt as reported' do
-      prompt = Prompt.create(id: 2, prompt: 'This is a test')
+      prompt = create(:prompt, id: 2, prompt: 'This is a test')
       expect(prompt.reported).to eq(false)
 
       prompt.report!

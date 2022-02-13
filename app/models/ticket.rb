@@ -22,9 +22,10 @@ class Ticket < ApplicationRecord
     end
   end
 
+  validates :status, presence: true, inclusion: { in: STATUSES.values }
+
   before_create do
     self.token = SecureRandom.uuid
-    self.status = STATUSES[:open]
     self.checked_at = Time.zone.now
   end
 

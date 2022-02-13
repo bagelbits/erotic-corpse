@@ -2,7 +2,7 @@
 
 class DeliCounterController < ApplicationController
   def ticket
-    ticket = Ticket.create
+    ticket = Ticket.create(status: Ticket::STATUSES[:open])
 
     TicketCalledTimeoutJob.set(wait: 10.seconds).perform_later(ticket.id) if ticket.id == Ticket.now_serving.id
 
