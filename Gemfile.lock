@@ -75,11 +75,6 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    delayed_job (4.1.10)
-      activesupport (>= 3.0, < 8.0)
-    delayed_job_active_record (4.1.7)
-      activerecord (>= 3.0, < 8.0)
-      delayed_job (>= 3.0, < 5)
     diff-lcs (1.5.0)
     erubi (1.10.0)
     erubis (2.7.0)
@@ -182,6 +177,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
+    redis (4.6.0)
     regexp_parser (2.2.1)
     rexml (3.2.5)
     rspec-core (3.11.0)
@@ -233,6 +229,10 @@ GEM
       tilt
     semantic_range (3.0.0)
     sexp_processor (4.16.0)
+    sidekiq (6.4.1)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     spring (2.1.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -277,7 +277,6 @@ DEPENDENCIES
   bugsnag (~> 6.13)
   byebug
   database_cleaner-active_record
-  delayed_job_active_record
   factory_bot_rails
   haml-rails (~> 2.0)
   jbuilder (~> 2.7)
@@ -292,6 +291,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   sass-rails (>= 6)
+  sidekiq (~> 6.4.0)
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)

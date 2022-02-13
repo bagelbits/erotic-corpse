@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   get 'admin', to: 'admin#index'
 
@@ -21,6 +23,8 @@ Rails.application.routes.draw do
       post 'heartbeat'
     end
   end
+
+  mount Sidekiq::Web => '/sidekiq'
 
   root 'home#index'
 end
