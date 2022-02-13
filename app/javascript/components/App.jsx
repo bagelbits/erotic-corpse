@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactAudioPlayer from 'react-audio-player';
+import ConsentPage from './app/ConsentPage';
 import DeliCounter from './app/DeliCounter';
 import EroticPrompt from './app/EroticPrompt';
 
-function getTicket() {
+function getTicket(consent) {
   const [result, setResult] = React.useState({});
   const [loading, setLoading] = React.useState('false');
 
@@ -27,13 +28,17 @@ function getTicket() {
       }
     }
 
+    if (consent !== true) {
+      return;
+    }
+
     fetchTicket();
-  }, []);
+  }, [consent]);
 
   return [result, loading];
 }
 
-function pollNowServing({ ticket, token }) {
+function pollNowServing(consent, { ticket, token }) {
   const [nowServing, setNowServing] = React.useState(null);
   React.useEffect(() => {
     async function fetchNowServing() {
@@ -60,6 +65,10 @@ function pollNowServing({ ticket, token }) {
     }
 
     let interval = null;
+    if (consent !== true) {
+      return () => clearInterval(interval);
+    }
+
     if (ticket && token) {
       fetchNowServing();
       if (ticket === nowServing) {
@@ -71,25 +80,30 @@ function pollNowServing({ ticket, token }) {
       }
     }
     return () => clearInterval(interval);
-  }, [ticket, token, nowServing]);
+  }, [ticket, token, nowServing, consent]);
   return nowServing;
 }
 
 function App() {
-  const [result, loading] = getTicket();
-  const nowServing = pollNowServing(result);
+  const [consent, setConsent] = React.useState(null);
+  const [result, loading] = getTicket(consent);
+  const nowServing = pollNowServing(consent, result);
 
   let renderedComponent;
-  if (loading === 'false') {
-    renderedComponent = <p>Loading...</p>;
-  } else if (loading === 'null') {
-    renderedComponent = <p>Something went terribly wrong.</p>;
-  } else if (result.ticket !== nowServing) {
-    renderedComponent = (
-      <DeliCounter ticket={result.ticket} token={result.token} nowServing={nowServing} />
-    );
-  } else {
-    renderedComponent = <EroticPrompt ticket={result.ticket} token={result.token} />;
+  if (consent === null) {
+    renderedComponent = <ConsentPage setConsent={setConsent} />;
+  } else if (consent === true) {
+    if (loading === 'false') {
+      renderedComponent = <p>Loading...</p>;
+    } else if (loading === 'null') {
+      renderedComponent = <p>Something went terribly wrong.</p>;
+    } else if (result.ticket !== nowServing) {
+      renderedComponent = (
+        <DeliCounter ticket={result.ticket} token={result.token} nowServing={nowServing} />
+      );
+    } else {
+      renderedComponent = <EroticPrompt ticket={result.ticket} token={result.token} />;
+    }
   }
 
   return (
@@ -100,14 +114,6 @@ function App() {
       <div className="audio-player">
         <p>Feel free to listen to Radio KTSK while you wait or write!</p>
         <ReactAudioPlayer src="https://kstk.rocks:8443/kstk" autoPlay controls />
-      </div>
-      <div className="credits">
-        <h1 className="credit-title">Credits</h1>
-        <p className="credit">Designed by Caitlyn Kilgore and Chris Ward</p>
-        <p className="credit">Created by Chris Ward</p>
-        <p className="credit">
-          &quot;Bell, Counter, A.wav&quot; by InspectorJ (www.jshaw.co.uk) of Freesound.org
-        </p>
       </div>
     </div>
   );

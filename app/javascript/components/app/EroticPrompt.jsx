@@ -216,16 +216,19 @@ function EroticPrompt({ ticket, token }) {
     renderedComponent = (
       <div>
         <p className="instructions">
-          This journal was found on the casino floor. It's full of collected erotic writings.
-          Contribute your fantasy to the story below by telling us what happens next.
+          Hey all you sexy humans, here&apos;s a place to share and cultivate your fantasies -
+          however taboo. Anonymously contribute to this erotic story and fulfill your desires.
           <br />
           <br />
-          No hate speech. No racist, misogynist, homophobic, transphobic, ableist, ageist, etc
-          contributions permitted. Please don't belittle anyone. Let's make sexual expression safe
-          and fun. If you see something that goes against these guidelines, report it.
+          No hate speech. No racist, misogynistic, homophobic, transphobic, ageist, ableist, etc
+          language. Don&apos;t yuck someone&apos;s yum. If you see something that goes against these
+          guidelines, report it.
         </p>
         <p className="prompt"> {result.prompt} </p>
         <p className="prompt-question">What happens next?</p>
+        <Button variant="danger" id="prompt_report" ref={reportEl} onClick={openReportModal}>
+          Report!
+        </Button>
         <CountdownTimer
           isActive
           date={countdownTime}
@@ -242,14 +245,9 @@ function EroticPrompt({ ticket, token }) {
           onChange={updateCharCountdown}
         />
         <p className="char-counter">{charCounter}</p>
-        <div className="prompt-buttons">
-          <Button variant="primary" id="prompt_submit" ref={submitEl} onClick={submitClicked}>
-            Submit!
-          </Button>
-          <Button variant="danger" id="prompt_report" ref={reportEl} onClick={openReportModal}>
-            Report!
-          </Button>
-        </div>
+        <Button variant="primary" id="prompt_submit" ref={submitEl} onClick={submitClicked}>
+          Submit!
+        </Button>
 
         <ReportModal
           open={reportModalOpen}
