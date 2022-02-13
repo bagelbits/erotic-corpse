@@ -1,0 +1,64 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+# TODO: Turn on new cops
+AllCops:
+  NewCops: enable
+  Exclude:
+    - '.github/workflows'
+    - '.github/config'
+    - '**/*.yml'
+    - 'Gemfile.lock'
+    - 'db/schema.rb'
+
+BulkChangeTable:
+  Enabled: false
+
+Metrics/BlockLength:
+  CountAsOne: ['array', 'heredoc', 'hash']
+  Exclude:
+    - 'spec/**/*.rb'
+
+Metrics/ClassLength:
+  CountAsOne: ['array', 'heredoc', 'hash']
+  Max: 150
+Metrics/MethodLength:
+  CountAsOne: ['array', 'heredoc', 'hash']
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+  CheckSymbols: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/ExampleLength:
+  CountAsOne: ['array', 'heredoc', 'hash']
+
+RSpec/NestedGroups:
+  Max: 4
+
+Style/Documentation:
+  Exclude:
+    - 'db/migrate/*.rb'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Lambda:
+  EnforcedStyle: literal
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma

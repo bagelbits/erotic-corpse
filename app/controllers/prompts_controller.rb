@@ -8,9 +8,7 @@ class PromptsController < ApplicationController
     params.require(:previous_prompt_id)
 
     ticket = Ticket.find(params[:ticket])
-    if ticket != Ticket.now_serving || ticket.token != params[:token]
-      return render json: {}
-    end
+    return render json: {} if ticket != Ticket.now_serving || ticket.token != params[:token]
 
     new_prompt = Prompt.create(prompt: params[:prompt])
     old_prompt = Prompt.find(params[:previous_prompt_id])
@@ -37,9 +35,7 @@ class PromptsController < ApplicationController
     params.require(:token)
 
     ticket = Ticket.find(params[:ticket])
-    if ticket != Ticket.now_serving || ticket.token != params[:token]
-      return render json: {}
-    end
+    return render json: {} if ticket != Ticket.now_serving || ticket.token != params[:token]
 
     ticket.got_response!
     ticket.check_in!
@@ -56,7 +52,7 @@ class PromptsController < ApplicationController
     if ticket != Ticket.now_serving || ticket.token != params[:token]
       return render json: {
         success: false,
-        error: "Unfortunately, you shouldn't have that ticket"
+        error: "Unfortunately, you shouldn't have that ticket",
       }
     end
 
@@ -64,13 +60,13 @@ class PromptsController < ApplicationController
     prompt.report!
     response = {
       success: true,
-      error: ''
+      error: '',
     }
     render json: response
   rescue ActiveRecord::RecordInvalid
     response = {
       success: false,
-      error: "Unfortunately, we can't roll back the story anymore. Sorry for the inconvience."
+      error: "Unfortunately, we can't roll back the story anymore. Sorry for the inconvience.",
     }
     render json: response
   end
