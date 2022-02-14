@@ -8,6 +8,7 @@
 h1.title {
   font-family: 'Homemade Apple', cursive;
   text-align: center;
+  font-size: 1.8rem;
   padding-top: 25px;
   padding-bottom: 25px;
 }
@@ -15,7 +16,7 @@ h1.title {
 h2.subtitle {
   font-family: 'Homemade Apple', cursive;
   text-align: center;
-  font-size: 1.7rem;
+  font-size: 1.4rem;
   margin-top: -20px;
 }
 
@@ -23,10 +24,7 @@ body {
   font-family: 'Jost', sans-serif;
   color: whitesmoke;
   background-color: #545454;
-  font-size: 1.2rem;
-  @media only screen and (min-width: 1140px) {
-    font-size: 1rem;
-  }
+  font-size: 0.8rem;
 }
 
 div.deli-counter {
@@ -36,11 +34,38 @@ div.deli-counter {
 
 div.audio-player {
   padding-top: 15px;
+  margin-top: 30px;
   text-align: center;
 }
 
 audio {
   width: 300px;
+}
+
+p.consent-page {
+  padding: 20px 0px 15px 0px;
+  text-align: center;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+div.consent-buttons {
+  margin-top: 10px;
+  text-align: center;
+}
+
+button#consent {
+  margin-right: 10px;
+}
+
+img#eye {
+  filter: invert(70%);
+  display: block;
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 8%;
 }
 
 p.instructions {
@@ -75,9 +100,8 @@ p.story {
 }
 
 p.prompt-question {
-  margin-right: 15%;
+  text-align: center;
   margin-bottom: 0px;
-  float: right;
   font-style: italic;
   font-size: 12px;
   color: gray;
@@ -88,6 +112,8 @@ div.time {
 }
 
 textarea.form-control {
+  border-radius: 10px;
+  font-size: 0.5rem;
   width: 70%;
   margin-left: 15%;
   margin-right: 15%;
@@ -99,7 +125,15 @@ div.prompt-buttons {
 }
 
 button#prompt_submit {
+  margin-top: 10px;
+  margin-left: 15%;
   margin-right: 10px;
+}
+
+button#prompt_report {
+  float: right;
+  margin-right: 10%;
+  margin-top: -26px;
 }
 
 p.char-counter {
@@ -107,10 +141,6 @@ p.char-counter {
   float: right;
   margin-right: 15%;
   margin-bottom: 0px;
-}
-
-audio {
-  width: 300px;
 }
 
 div.credits {
