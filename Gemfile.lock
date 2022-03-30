@@ -132,7 +132,7 @@ GEM
     parallel (1.21.0)
     parser (3.1.0.0)
       ast (~> 2.4.1)
-    puma (4.3.11)
+    puma (4.3.12)
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
@@ -283,7 +283,7 @@ DEPENDENCIES
   jquery-rails (~> 4.4)
   listen (~> 3.2)
   mysql2 (>= 0.4.4)
-  puma (~> 4.3.11)
+  puma (~> 4.3.12)
   rails (~> 6.0.3)
   react-rails
   rspec-rails (~> 4.0)
