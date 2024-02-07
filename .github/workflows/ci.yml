@@ -23,7 +23,7 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
       - name: Run rubocop with reviewdog
-        uses: reviewdog/action-rubocop@v1
+        uses: reviewdog/action-rubocop@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           rubocop_version: gemfile
