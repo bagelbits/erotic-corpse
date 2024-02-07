@@ -19,7 +19,7 @@
     "react-bootstrap": "^1.0.1",
     "react-countdown": "^2.2.1",
     "react-dom": "^16.13.1",
-    "react-howler": "^3.7.4",
+    "react-howler": "^5.2.0",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
