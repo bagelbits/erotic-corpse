@@ -61,4 +61,4 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'react-rails'
 
-gem 'bugsnag', '~> 6.13'
+gem 'bugsnag', '~> 6.26'

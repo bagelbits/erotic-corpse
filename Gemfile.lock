@@ -64,7 +64,7 @@ GEM
     bindex (0.8.1)
     bootsnap (1.10.3)
       msgpack (~> 1.2)
-    bugsnag (6.24.2)
+    bugsnag (6.26.3)
       concurrent-ruby (~> 1.0)
     builder (3.2.4)
     byebug (11.1.3)
@@ -270,7 +270,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.4.2)
-  bugsnag (~> 6.13)
+  bugsnag (~> 6.26)
   byebug
   database_cleaner-active_record
   factory_bot_rails
