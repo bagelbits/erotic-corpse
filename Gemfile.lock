@@ -148,7 +148,7 @@ GEM
       racc
     puma (6.4.2)
       nio4r (~> 2.0)
-    racc (1.7.3)
+    racc (1.8.0)
     rack (2.2.9)
     rack-proxy (0.7.7)
       rack
@@ -195,7 +195,7 @@ GEM
       tilt
     redis-client (0.22.1)
       connection_pool
-    regexp_parser (2.9.1)
+    regexp_parser (2.9.2)
     rexml (3.2.8)
       strscan (>= 3.0.9)
     rspec-core (3.13.0)
@@ -215,7 +215,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.1)
-    rubocop (1.63.5)
+    rubocop (1.64.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
