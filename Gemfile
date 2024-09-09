@@ -25,7 +25,7 @@ gem 'jbuilder', '~> 2.12'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'haml-rails', '~> 2.1'
 gem 'jquery-rails', '~> 4.6'
-gem 'sidekiq', '~>7.3.1'
+gem 'sidekiq', '~>7.3.2'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
