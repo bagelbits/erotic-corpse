@@ -16,8 +16,12 @@ jobs:
         id: meta
         uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
 
+      # Grouped updates, removals and security bumps report no update-type, so a
+      # blocklist on semver-major lets them through unchecked; name the two that may merge.
       - name: Approve and enable auto-merge (patch/minor only)
-        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        if: |
+          steps.meta.outputs.update-type == 'version-update:semver-patch' ||
+          steps.meta.outputs.update-type == 'version-update:semver-minor'
         run: |
           gh pr review --approve "$PR_URL"
           gh pr merge --auto --squash "$PR_URL"
