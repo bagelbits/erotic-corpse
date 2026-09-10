@@ -2,7 +2,11 @@
   "env": {
     "browser": true
   },
-  "extends": ["plugin:react/recommended", "airbnb", "prettier"],
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -10,9 +14,59 @@
     "ecmaVersion": 2021,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier"],
+  "plugins": [
+    "react",
+    "prettier"
+  ],
   "rules": {
-    "prettier/prettier": ["error"],
-    "react/jsx-one-expression-per-line": ["off"]
-  }
+    "prettier/prettier": [
+      "error"
+    ],
+    "react/jsx-one-expression-per-line": [
+      "off"
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": [
+          "node_modules",
+          "app/javascript"
+        ]
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": [
+        "spec/javascript/**/*.{js,jsx}",
+        "vitest.config.mjs"
+      ],
+      "env": {
+        "node": true
+      },
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": true
+          }
+        ],
+        "react/jsx-props-no-spreading": "off",
+        "react/prop-types": "off"
+      }
+    },
+    {
+      "files": [
+        "vitest.config.mjs"
+      ],
+      "env": {
+        "node": true
+      },
+      "rules": {
+        "import/no-unresolved": "off",
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
 }
