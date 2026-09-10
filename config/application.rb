@@ -25,7 +25,7 @@ Bundler.require(*Rails.groups)
 module EroticCorpse
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 8.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -39,7 +39,7 @@ module EroticCorpse
 
     if ENV['RUN_TYPE'] == 'web' || Rails.env.test?
       config.after_initialize do
-        ActiveRecord::MigrationContext.new('db/migrate/', ActiveRecord::SchemaMigration).migrate
+        ActiveRecord::MigrationContext.new('db/migrate/').migrate
       end
     end
   end

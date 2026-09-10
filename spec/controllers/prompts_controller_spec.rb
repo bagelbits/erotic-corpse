@@ -18,7 +18,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           post :create, params: { prompt: 'Lorem ipsum', previous_prompt_id: 1, token: 'token' }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: ticket')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: ticket')
       end
     end
 
@@ -26,7 +26,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           post :create, params: { prompt: 'Lorem ipsum', previous_prompt_id: 1, ticket: 1 }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: token')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: token')
       end
     end
 
@@ -34,7 +34,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           post :create, params: { previous_prompt_id: 1, ticket: 1, token: 'token' }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: prompt')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: prompt')
       end
     end
 
@@ -43,7 +43,7 @@ describe PromptsController do
         expect do
           post :create, params: { prompt: 'Lorem ipsum', ticket: 1, token: 'token' }
         end.to raise_error(ActionController::ParameterMissing,
-                           'param is missing or the value is empty: previous_prompt_id')
+                           'param is missing or the value is empty or invalid: previous_prompt_id')
       end
     end
   end
@@ -84,7 +84,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           get :story, params: { token: 'token' }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: ticket')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: ticket')
       end
     end
 
@@ -92,7 +92,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           get :story, params: { ticket: 1 }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: token')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: token')
       end
     end
 
@@ -161,7 +161,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           get :last, params: { token: 'token' }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: ticket')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: ticket')
         expect(TicketSubmitTimeoutJob).not_to have_been_enqueued.with(ticket.id)
       end
     end
@@ -170,7 +170,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           get :last, params: { ticket: 1 }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: token')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: token')
         expect(TicketSubmitTimeoutJob).not_to have_been_enqueued.with(ticket.id)
       end
     end
@@ -265,7 +265,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           post :report, params: { id: 2, token: 'token' }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: ticket')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: ticket')
       end
     end
 
@@ -273,7 +273,7 @@ describe PromptsController do
       it 'fails' do
         expect do
           post :report, params: { id: 2, ticket: 1 }
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: token')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty or invalid: token')
       end
     end
 
