@@ -39,7 +39,7 @@ module EroticCorpse
 
     if ENV['RUN_TYPE'] == 'web' || Rails.env.test?
       config.after_initialize do
-        ActiveRecord::MigrationContext.new('db/migrate/', ActiveRecord::SchemaMigration).migrate
+        ActiveRecord::MigrationContext.new('db/migrate/').migrate
       end
     end
   end
