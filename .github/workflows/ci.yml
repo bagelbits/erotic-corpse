@@ -29,6 +29,24 @@ jobs:
           reporter: github-pr-review
           fail_on_error: true
 
+  js-lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Run eslint
+        run: npm run lint
+
   js-tests:
     name: JS Tests
     runs-on: ubuntu-latest

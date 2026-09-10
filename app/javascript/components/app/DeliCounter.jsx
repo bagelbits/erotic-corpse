@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DeliCounter = ({ ticket, nowServing }) => {
+function DeliCounter({ ticket, nowServing }) {
   const numOfPeople = ticket - nowServing - 1;
   let lineString;
   if (numOfPeople === 1) {
@@ -15,7 +15,7 @@ const DeliCounter = ({ ticket, nowServing }) => {
       <p>Please do not refresh the page, or you will lose your place in line.</p>
     </div>
   );
-};
+}
 
 DeliCounter.defaultProps = {
   nowServing: null,
