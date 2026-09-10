@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Countdown from 'react-countdown';
 
-const CountdownTimerFormat = ({ seconds, minutes }) => {
+function CountdownTimerFormat({ seconds, minutes }) {
   const secondsString = `${seconds % 60}`.padStart(2, '0');
   const timeString = `${minutes}:${secondsString}`;
   return <div className="time">{timeString}</div>;
-};
+}
 
-const CountdownTimer = ({ date, onFinish }) => {
+function CountdownTimer({ date, onFinish }) {
   return <Countdown date={date} renderer={CountdownTimerFormat} onComplete={onFinish} />;
-};
+}
 
 CountdownTimerFormat.propTypes = {
   seconds: PropTypes.number.isRequired,

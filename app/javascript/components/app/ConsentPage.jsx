@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 
-const ConsentPage = ({ setConsent }) => {
+function ConsentPage({ setConsent }) {
   return (
     <div>
       <p className="consent-page">
@@ -46,7 +46,7 @@ const ConsentPage = ({ setConsent }) => {
       </div>
     </div>
   );
-};
+}
 
 ConsentPage.propTypes = {
   setConsent: PropTypes.func.isRequired,
