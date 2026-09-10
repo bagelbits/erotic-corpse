@@ -113,3 +113,11 @@ jobs:
 
       - name: Run tests
         run: bundle exec rspec
+
+      # Precompile has its own binstub and bundler checks that rspec never reaches.
+      - name: Verify production asset precompile
+        env:
+          RAILS_ENV: production
+          NODE_ENV: production
+          SECRET_KEY_BASE_DUMMY: 1
+        run: bundle exec rails assets:precompile
