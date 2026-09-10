@@ -7,7 +7,7 @@ module React
     class ShakapackerManifestContainer
       def find_asset(filename)
         path = ::URI.parse(::Shakapacker.manifest.lookup!(filename)).path
-        ::File.read(::Rails.public_path.join(path.delete_prefix('/')))
+        ::Rails.public_path.join(path.delete_prefix('/')).read
       end
     end
   end

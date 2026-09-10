@@ -16,9 +16,9 @@ gem 'sprockets-rails', '~> 3.5'
 gem 'dartsass-sprockets', '~> 3.2'
 # Shakapacker is the maintained successor to the retired webpacker gem.
 gem 'shakapacker', '~> 10.3'
+gem 'haml-rails', '~> 3.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.15'
-gem 'haml-rails', '~> 3.1'
 gem 'jquery-rails', '~> 4.6'
 gem 'sidekiq', '~> 8.1'
 
