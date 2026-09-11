@@ -39,15 +39,11 @@ export default [
   },
 
   {
-    // The packs are webpack entrypoints and use require rather than import.
-    files: ['app/javascript/packs/**/*.js', 'app/javascript/channels/index.js'],
+    // This file loads its channels through require.context rather than import.
+    files: ['app/javascript/channels/index.js'],
     languageOptions: {
       sourceType: 'commonjs',
       globals: { ...globals.browser, ...globals.commonjs },
-    },
-    rules: {
-      // ReactRailsUJS.useContext is react_ujs's own API, not a React hook.
-      'react-hooks/rules-of-hooks': 'off',
     },
   },
 
