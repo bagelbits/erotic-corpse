@@ -4,7 +4,7 @@ import ConsentPage from './app/ConsentPage';
 import DeliCounter from './app/DeliCounter';
 import EroticPrompt from './app/EroticPrompt';
 
-function getTicket(consent) {
+function useTicket(consent) {
   const [result, setResult] = React.useState({});
   const [loading, setLoading] = React.useState('false');
 
@@ -23,7 +23,7 @@ function getTicket(consent) {
         const json = await response.json();
         setResult(json);
         setLoading('true');
-      } catch (error) {
+      } catch {
         setLoading('null');
       }
     }
@@ -38,7 +38,7 @@ function getTicket(consent) {
   return [result, loading];
 }
 
-function pollNowServing(consent, { ticket, token }) {
+function useNowServing(consent, { ticket, token }) {
   const [nowServing, setNowServing] = React.useState(null);
   React.useEffect(() => {
     async function fetchNowServing() {
@@ -86,8 +86,8 @@ function pollNowServing(consent, { ticket, token }) {
 
 function App() {
   const [consent, setConsent] = React.useState(null);
-  const [result, loading] = getTicket(consent);
-  const nowServing = pollNowServing(consent, result);
+  const [result, loading] = useTicket(consent);
+  const nowServing = useNowServing(consent, result);
 
   let renderedComponent;
   if (consent === null) {

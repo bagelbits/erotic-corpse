@@ -7,7 +7,7 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint app/javascript spec/javascript --ext .js,.jsx"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@rails/actioncable": "^7.2.302",
@@ -26,6 +26,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@swc/core": "^1.16.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
@@ -33,15 +34,14 @@
     "@vitejs/plugin-react": "^6.1.1",
     "compression-webpack-plugin": "^12.0.0",
     "css-loader": "^7.1.5",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^9.1.2",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jest": "^28.14.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.12.0",
     "jsdom": "^29.1.1",
     "mini-css-extract-plugin": "^2.10.2",
     "prettier": "^3.9.6",

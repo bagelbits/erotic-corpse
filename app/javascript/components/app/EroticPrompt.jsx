@@ -8,7 +8,7 @@ import CountdownTimer from './CountdownTimer';
 const MAX_CHARACTERS = 280;
 const COUNTDOWN_TIME = 180;
 
-function getPrompt(reported, ticket, token) {
+function usePrompt(reported, ticket, token) {
   const [result, setResult] = React.useState({});
   const [loading, setLoading] = React.useState('false');
 
@@ -19,7 +19,7 @@ function getPrompt(reported, ticket, token) {
         const json = await response.json();
         setResult(json);
         setLoading('true');
-      } catch (error) {
+      } catch {
         setLoading('null');
       }
     }
@@ -30,7 +30,7 @@ function getPrompt(reported, ticket, token) {
   return [result, loading];
 }
 
-function checkPulse(ticket, token, submitted) {
+function useHeartbeat(ticket, token, submitted) {
   React.useEffect(() => {
     async function postHeartbeat() {
       try {
@@ -67,7 +67,7 @@ function checkPulse(ticket, token, submitted) {
   }, [ticket, token, submitted]);
 }
 
-function getStory(ticket, token, submitted) {
+function useStory(ticket, token, submitted) {
   const [result, setResult] = React.useState({});
 
   React.useEffect(() => {
@@ -94,12 +94,12 @@ function EroticPrompt({ ticket, token }) {
   const [charCounter, setCharCounter] = React.useState(MAX_CHARACTERS);
   const [submitted, setSubmitted] = React.useState('false');
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
-  const countdownTime = Date.now() + COUNTDOWN_TIME * 1000;
+  const [countdownTime] = React.useState(() => Date.now() + COUNTDOWN_TIME * 1000);
   const [soundPlayed, setSoundPlayed] = React.useState(false);
 
-  const [result, loading] = getPrompt(reported, ticket, token);
-  const fullStory = getStory(ticket, token, submitted);
-  checkPulse(ticket, token, submitted);
+  const [result, loading] = usePrompt(reported, ticket, token);
+  const fullStory = useStory(ticket, token, submitted);
+  useHeartbeat(ticket, token, submitted);
 
   const submitEl = React.useRef(null);
   const reportEl = React.useRef(null);
@@ -131,7 +131,7 @@ function EroticPrompt({ ticket, token }) {
           },
           body: JSON.stringify(body),
         });
-      } catch (error) {
+      } catch {
         setSubmitted('null');
       }
 
