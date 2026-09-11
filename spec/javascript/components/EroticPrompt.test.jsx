@@ -45,6 +45,18 @@ describe('EroticPrompt', () => {
     expect(screen.getByText('What happens next?')).toBeInTheDocument();
   });
 
+  it('fetches the prompt once, not on every re-render', async () => {
+    renderPrompt();
+    await screen.findByText('She opened the door.');
+
+    await userEvent.type(await screen.findByRole('textbox'), 'typing re-renders this');
+
+    const fetches = global.fetch.mock.calls.filter(([url]) =>
+      String(url).includes('/prompts/last'),
+    );
+    expect(fetches).toHaveLength(1);
+  });
+
   it('reports failure when the prompt cannot be fetched', async () => {
     respondWith({ '/prompts/last': new Error('boom') });
     renderPrompt();

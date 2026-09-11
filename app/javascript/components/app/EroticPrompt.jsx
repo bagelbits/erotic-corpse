@@ -25,7 +25,7 @@ function usePrompt(reported, ticket, token) {
     }
 
     fetchPrompt();
-  }, [reported]);
+  }, [reported, ticket, token]);
 
   return [result, loading];
 }
