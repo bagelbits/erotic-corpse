@@ -64,7 +64,7 @@ default: &default
   # installed, but fall back to Babel with a warning when only Babel tooling is present.
   # Use 'none' when providing a completely custom webpack configuration
   # Note: When using rspack, swc is used automatically regardless of this setting
-  javascript_transpiler: "babel"
+  javascript_transpiler: "swc"
 
   # Select assets bundler to use
   # Available options: 'webpack' or 'rspack'
