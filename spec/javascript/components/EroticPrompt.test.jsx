@@ -51,7 +51,9 @@ describe('EroticPrompt', () => {
 
     await userEvent.type(await screen.findByRole('textbox'), 'typing re-renders this');
 
-    const fetches = global.fetch.mock.calls.filter(([url]) => String(url).includes('/prompts/last'));
+    const fetches = global.fetch.mock.calls.filter(([url]) =>
+      String(url).includes('/prompts/last'),
+    );
     expect(fetches).toHaveLength(1);
   });
 
