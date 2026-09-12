@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function DeliCounter({ ticket, nowServing }) {
+function DeliCounter({ ticket, nowServing = null }) {
   const numOfPeople = ticket - nowServing - 1;
   let lineString;
   if (numOfPeople === 1) {
@@ -16,10 +16,6 @@ function DeliCounter({ ticket, nowServing }) {
     </div>
   );
 }
-
-DeliCounter.defaultProps = {
-  nowServing: null,
-};
 
 DeliCounter.propTypes = {
   ticket: PropTypes.number.isRequired,

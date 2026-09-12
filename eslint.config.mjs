@@ -35,6 +35,9 @@ export default [
     },
     rules: {
       'react/jsx-one-expression-per-line': 'off',
+      // The node resolver cannot follow package exports maps, which is how
+      // react-on-rails publishes its client-only entry.
+      'import/no-unresolved': ['error', { ignore: ['^react-on-rails/'] }],
     },
   },
 
