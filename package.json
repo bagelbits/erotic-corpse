@@ -50,7 +50,7 @@
     "style-loader": "^4.0.0",
     "swc-loader": "^0.2.7",
     "terser-webpack-plugin": "^5.6.1",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.1",
     "webpack": "^5.110.3",
     "webpack-assets-manifest": "^6.5.2",
     "webpack-cli": "^6.0.1",
