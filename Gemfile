@@ -47,6 +47,6 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
-gem 'react_on_rails', '~> 17.0'
+gem 'react_on_rails', '~> 17.1'
 
 gem 'bugsnag', '~> 6.30'
