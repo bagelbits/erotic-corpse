@@ -1,19 +1,19 @@
 import js from '@eslint/js';
 import globals from 'globals';
-import react from 'eslint-plugin-react';
+import eslintReact from '@eslint-react/eslint-plugin';
 import reactHooks from 'eslint-plugin-react-hooks';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-import importPlugin from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y-x';
+import { importX } from 'eslint-plugin-import-x';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default [
   { ignores: ['node_modules/**', 'public/**', 'vendor/**', 'tmp/**', 'log/**', 'storage/**'] },
 
   js.configs.recommended,
-  react.configs.flat.recommended,
+  eslintReact.configs.recommended,
   reactHooks.configs.flat['recommended-latest'],
-  jsxA11y.flatConfigs.recommended,
-  importPlugin.flatConfigs.recommended,
+  jsxA11y.configs.recommended,
+  importX.flatConfigs.recommended,
 
   {
     files: ['**/*.{js,jsx,mjs}'],
@@ -24,9 +24,8 @@ export default [
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     settings: {
-      react: { version: 'detect' },
       // Bare "components/..." specifiers resolve through shakapacker's source_path.
-      'import/resolver': {
+      'import-x/resolver': {
         node: {
           extensions: ['.js', '.jsx', '.mjs'],
           moduleDirectory: ['node_modules', 'app/javascript'],
@@ -34,10 +33,10 @@ export default [
       },
     },
     rules: {
-      'react/jsx-one-expression-per-line': 'off',
+      'no-unused-vars': ['error', { varsIgnorePattern: '^React$' }],
       // The node resolver cannot follow package exports maps, which is how
       // react-on-rails publishes its client-only entry.
-      'import/no-unresolved': ['error', { ignore: ['^react-on-rails/'] }],
+      'import-x/no-unresolved': ['error', { ignore: ['^react-on-rails/'] }],
     },
   },
 
@@ -63,10 +62,9 @@ export default [
     files: ['spec/javascript/**/*.{js,jsx}', 'vitest.config.mjs'],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
     rules: {
-      // Specs spread props and pull from devDependencies, which app code may not.
-      'react/prop-types': 'off',
-      'import/no-extraneous-dependencies': 'off',
-      'import/no-unresolved': 'off',
+      // Specs pull from devDependencies, which app code may not.
+      'import-x/no-extraneous-dependencies': 'off',
+      'import-x/no-unresolved': 'off',
     },
   },
 
