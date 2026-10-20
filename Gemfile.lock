@@ -99,7 +99,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0)
     database_cleaner-core (2.1.0)
-    date (3.5.1)
+    date (3.6.0)
     debug (1.11.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
@@ -174,14 +174,14 @@ GEM
     msgpack (1.8.4)
     mysql2 (0.5.7)
       bigdecimal
-    net-imap (0.6.7)
+    net-imap (0.6.8)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.4.0)
       timeout
-    net-smtp (0.5.1)
+    net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
     nokogiri (1.19.4-arm64-darwin)
@@ -195,7 +195,7 @@ GEM
       racc
     pp (0.6.4)
       prettyprint
-    prettyprint (0.2.0)
+    prettyprint (0.2.1)
     prism (1.9.0)
     public_suffix (7.0.5)
     puma (8.0.2)
@@ -255,7 +255,7 @@ GEM
       prism (>= 1.6.0)
       rbs (>= 4.0.0)
       tsort
-    react_on_rails (17.1.0)
+    react_on_rails (17.2.0)
       addressable
       connection_pool
       execjs (~> 2.5)
@@ -347,7 +347,7 @@ GEM
     unicode-display_width (3.3.0)
       unicode-emoji (~> 4.3)
     unicode-emoji (4.3.0)
-    uri (1.1.1)
+    uri (1.1.2)
     useragent (0.16.11)
     web-console (4.3.0)
       actionview (>= 8.0.0)
@@ -377,7 +377,7 @@ DEPENDENCIES
   mysql2 (~> 0.5.7)
   puma (~> 8.0)
   rails (~> 8.1.4)
-  react_on_rails (~> 17.1)
+  react_on_rails (~> 17.2)
   rspec-rails (~> 8.0)
   rubocop
   rubocop-rails
