@@ -19,7 +19,7 @@
     "react-audio-player": "^0.17.0",
     "react-bootstrap": "^2.10.10",
     "react-countdown": "^2.3.6",
-    "react-dom": "^19.3.0",
+    "react-dom": "^19.3.1",
     "react-howler": "^5.2.0",
     "react-on-rails": "^17.1.0",
     "shakapacker": "^10.3.2"
