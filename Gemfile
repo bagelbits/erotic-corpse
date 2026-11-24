@@ -9,7 +9,7 @@ gem 'rails', '~> 8.1.4'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5.7'
 # Use Puma as the app server
-gem 'puma', '~> 8.0'
+gem 'puma', '~> 8.1'
 # Sprockets is no longer a Rails default; the asset pipeline still serves app/assets.
 gem 'sprockets-rails', '~> 3.5'
 # dartsass-sprockets replaces sass-rails, whose sassc backend is unmaintained.
